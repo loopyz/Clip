@@ -304,26 +304,32 @@
     cell.backgroundColor = [UIColor clearColor];
     
     //setup name label
-    UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
-    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(98, 5, 300, 50)];
-    [name setTextColor:nameColor];
-    [name setBackgroundColor:[UIColor clearColor]];
-    [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
-    
+    UILabel *name = (UILabel*)[cell.contentView viewWithTag:1];
+    if (!name) {
+        UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
+        name = [[UILabel alloc] initWithFrame:CGRectMake(98, 5, 300, 50)];
+        [name setTextColor:nameColor];
+        [name setBackgroundColor:[UIColor clearColor]];
+        [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
+        name.tag = 1;
+        [cell addSubview:name];
+    }
     name.text = [campaign objectForKey:@"title"];//@"Free Breadsticks";
-    [cell addSubview:name];
     
     //setup description
     UIColor *descColor = [UIColor colorWithRed:136/255.0f green:136/255.0f blue:136/255.0f alpha:1.0f];
-    UILabel *desc = [[UILabel alloc] initWithFrame:CGRectMake(98, 43, SCREEN_WIDTH - 120, 50)];
-    [desc setTextColor:descColor];
-    [desc setBackgroundColor:[UIColor clearColor]];
-    [desc setFont:[UIFont fontWithName:@"Avenir" size:10]];
-    
+    UILabel *desc = (UILabel*)[cell.contentView viewWithTag:2];
+    if (!desc) {
+        desc = [[UILabel alloc] initWithFrame:CGRectMake(98, 43, SCREEN_WIDTH - 120, 50)];
+        [desc setTextColor:descColor];
+        [desc setBackgroundColor:[UIColor clearColor]];
+        [desc setFont:[UIFont fontWithName:@"Avenir" size:10]];
+        desc.lineBreakMode = NSLineBreakByWordWrapping;
+        desc.numberOfLines = 0;
+        desc.tag = 2;
+        [cell addSubview:desc];
+    }
     desc.text = [campaign objectForKey:@"description"];//@"Do you love free breadsticks? Do you like taking funny videos? Send us a funny video with a pizza joke and we'll give you some free breadsticks in return!";
-    desc.lineBreakMode = NSLineBreakByWordWrapping;
-    desc.numberOfLines = 0;
-    [cell addSubview:desc];
     
     //setup logo
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 58.5, 60)];

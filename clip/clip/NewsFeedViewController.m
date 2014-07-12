@@ -32,8 +32,6 @@
         locationIcon = [UIImage imageNamed:@"locationicon.png"];
         heartButtonIcon = [UIImage imageNamed:@"heartbutton.png"];
         commentButtonIcon = [UIImage imageNamed:@"commentbutton.png"];
-        
-        [self.tableView setAllowsSelection:NO];
     }
     return self;
 }
@@ -67,6 +65,8 @@
 //            //[self presentMoviePlayerViewControllerAnimated:movie];
 //        }
 //    }];
+    
+    [self.tableView setAllowsSelection:NO];
     
 }
 

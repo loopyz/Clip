@@ -24,7 +24,7 @@
             
             videoURLs = [[NSMutableArray alloc] init];
             videoLength = maxVideoLength = 0.0;
-            quality = MEDIUM_QUALITY;
+            quality = LOW_QUALITY;
             recording = videoReady = finishing = NO;
             videoURLsCondition = [[NSCondition alloc] init];
             videoURLsLocked = NO;
