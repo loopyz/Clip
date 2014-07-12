@@ -31,18 +31,6 @@ $(function () {
         });                
     });
 
-    // Need to be looged in. 
-    function checkLogin() {
-        console('Alexis');
-        var currentUser = Parse.User.current();
-        if (currentUser) {
-            console.log('hi');
-        } else {
-            console.log('bye');
-            window.open("/", "_self");
-        }
-    }
-
     var Campaign = Parse.Object.extend("Campaign");
 
     $('#create_campaign_form').on('submit', function(e) {

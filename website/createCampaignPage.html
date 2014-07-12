@@ -6,6 +6,17 @@
             Parse.initialize("zJDkcisSASpMHkV9VCpEJFbkrO16eJv6g1i5UxjU", "NYTIqi6mJbKUr3AbR8JpofmqRfYpWOrz6shdngud");
         </script>-->
         <script type="text/javascript" src="/static/campaign.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                Parse.initialize("zJDkcisSASpMHkV9VCpEJFbkrO16eJv6g1i5UxjU", "NYTIqi6mJbKUr3AbR8JpofmqRfYpWOrz6shdngud");
+                var user = Parse.User.current();
+                // Must be logged in
+                if(user) {
+                } else {
+                    window.open("/","_self");
+                }
+            })
+        </script>
     </head>
     <body>
         Fill out this form to create a new campaign. <br><br>

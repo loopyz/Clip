@@ -5,6 +5,14 @@
         <script type="text/javascript">
             $(function () {
                 Parse.initialize("zJDkcisSASpMHkV9VCpEJFbkrO16eJv6g1i5UxjU", "NYTIqi6mJbKUr3AbR8JpofmqRfYpWOrz6shdngud");
+               
+                var user = Parse.User.current();
+                 // Must be logged in
+                if(user) {
+                } else {
+                    window.open("/","_self");
+                }
+
                 var campaignId = $('#campaign_id').text();
                 
                 var Campaign = Parse.Object.extend("Campaign");
