@@ -9,7 +9,7 @@ $(function () {
         Parse.User.logIn(username, password, {
             success: function (user) {
                 console.log(user.get('username'));
-                window.open("home","_self");
+                window.open("campaigns","_self");
             }, error: function (user, error) {
                 console.log(error.code + ' ' + error.message);
                 // create new parse user
@@ -58,9 +58,15 @@ $(function () {
         campaign.set("state", state);
         campaign.set("i1", i1);
 
+        var owner = Parse.User.current();
+        var relation = owner.relation("campaigns");
+        campaign.set("owner", owner.username);
+
         campaign.save(null, {
             success: function(campaign) {
-                console.log('This campaign was saved')
+                console.log('This campaign was saved');
+                relation.add(campaign);
+                owner.save();
                 var id = campaign.id
                 window.open("/viewCampaign?id=" + id, "_self");
             }, error: function(campaign, error) {
@@ -68,6 +74,4 @@ $(function () {
             }
         });
     });
-
 });
-

@@ -72,7 +72,14 @@
             UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                        target:self
                                                                                        action:nil];
-            [toolBar setItems:[NSMutableArray arrayWithObjects:flexSpace, restartBtn, finishBtn, nil]];
+            
+            UIBarButtonItem *selfieBtn = [[UIBarButtonItem alloc] initWithTitle:@"Flip Camera"
+                                                                           style:UIBarButtonItemStyleDone
+                                                                          target:self
+                                                                          action:@selector(selfieCam:)];
+            
+            
+            [toolBar setItems:[NSMutableArray arrayWithObjects:selfieBtn, flexSpace, restartBtn, finishBtn, nil]];
             
             
             self->recordLabel= [[UILabel alloc]initWithFrame:CGRectMake(120, 44, 100, 50)];
@@ -89,10 +96,22 @@
             compAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio
                                                       preferredTrackID:kCMPersistentTrackID_Invalid];
             startTime = kCMTimeZero;
+            
         }
     }
     
     return self;
+}
+
+- (void)selfieCam:(id)sender
+{
+    if(self.cameraDevice == UIImagePickerControllerCameraDeviceFront)
+    {
+        self.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+    }
+    else {
+        self.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+    }
 }
 
 #pragma mark - Custom Functions (Alphabetical order)
