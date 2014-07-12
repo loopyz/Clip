@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PullToRefresh.h"
 
-@interface EarnedCouponsViewController : UITableViewController {
+
+@interface EarnedCouponsViewController : UITableViewController<BEMPullToRefreshDelegate> {
     NSMutableIndexSet *expandedSections;
 }
+
+@property (nonatomic, strong) PullToRefresh *myPTR;
 
 @end

@@ -31,11 +31,27 @@
     [super viewDidLoad];
     UIEdgeInsets inset = UIEdgeInsetsMake(0, 0, 50, 0);
     self.tableView.contentInset = inset;
+    
+    self.myPTR = [[PullToRefresh alloc] initWithNumberOfDots:5];
+    self.myPTR.delegate = self;
+    [self.view addSubview:self.myPTR];
+    
+    
     // Do any additional setup after loading the view.
     if (!expandedSections)
     {
         expandedSections = [[NSMutableIndexSet alloc] init];
     }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView  {
+    [self.myPTR viewDidScroll:scrollView];
+}
+
+- (void)Refresh {
+    // Perform here the required actions to refresh the data (call a JSON API for example).
+    // Once the data has been updated, call the method isDoneRefreshing:
+    [self.myPTR isDoneRefreshing];
 }
 
 - (void)didReceiveMemoryWarning

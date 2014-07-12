@@ -7,10 +7,14 @@
 //
 
 #import "KSVideoPlayerView.h"
+#import "PullToRefresh.h"
+
 
 #import <UIKit/UIKit.h>
 
-@interface NewsFeedViewController : UITableViewController<UIScrollViewDelegate>
+@interface NewsFeedViewController : UITableViewController<UIScrollViewDelegate, BEMPullToRefreshDelegate>
 
 @property (nonatomic, strong) KSVideoPlayerView *player;
+@property (nonatomic, strong) PullToRefresh *ptr;
+
 @end

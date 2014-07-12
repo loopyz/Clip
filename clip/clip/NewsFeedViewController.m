@@ -43,6 +43,11 @@
     [super viewDidLoad];
     UIEdgeInsets inset = UIEdgeInsetsMake(0, 0, 50, 0);
     self.tableView.contentInset = inset;
+    
+    self.ptr = [[PullToRefresh alloc] initWithNumberOfDots:5];
+    self.ptr.delegate = self;
+    [self.view addSubview:self.ptr];
+    
     // Do any additional setup after loading the view.
 //    PFQuery *query = [PFQuery queryWithClassName:@"Video"];
 //    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -58,6 +63,17 @@
 //    }];
     
 }
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView  {
+    [self.ptr viewDidScroll:scrollView];
+}
+
+- (void)Refresh {
+    // Perform here the required actions to refresh the data (call a JSON API for example).
+    // Once the data has been updated, call the method isDoneRefreshing:
+    [self.ptr isDoneRefreshing];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
