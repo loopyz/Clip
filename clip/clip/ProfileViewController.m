@@ -39,6 +39,11 @@
         locationIcon = [UIImage imageNamed:@"locationicon.png"];
         heartButtonIcon = [UIImage imageNamed:@"heartbutton.png"];
         commentButtonIcon = [UIImage imageNamed:@"commentbutton.png"];
+        
+        UIBarButtonItem *rbb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingsicon.png"]
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(refreshView)];
     }
     return self;
 }
@@ -198,7 +203,21 @@
     self.myPTR.delegate = self;
     [self.view addSubview: self.myPTR];
 
-    // Do any additional setup after loading the view.
+//    // Do any additional setup after loading the view.
+//    PFQuery *query = [PFQuery queryWithClassName:@"Video"];
+//    if ([PFUser currentUser]) {
+//        [query whereKey:@"creator" equalTo:[PFUser currentUser]];
+//    }
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//        if (objects) {
+//            self.videos = objects;
+//            [self.videosTable reloadData];
+//        }
+//    }];
+}
+
+- (void)refreshView
+{
     PFQuery *query = [PFQuery queryWithClassName:@"Video"];
     if ([PFUser currentUser]) {
         [query whereKey:@"creator" equalTo:[PFUser currentUser]];
@@ -214,6 +233,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self refreshView];
 }
 
 - (void)didReceiveMemoryWarning
