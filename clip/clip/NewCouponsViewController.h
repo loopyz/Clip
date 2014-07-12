@@ -8,6 +8,7 @@
 
 #import "AppendableVideoMaker.h"
 #import "PullToRefresh.h"
+#import "PullToRefresh.h"
 
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>

@@ -179,9 +179,23 @@
     [self.view addSubview:self.scrollView];               //adding to parent view!
 }
 
+- (void)Refresh {
+    // Perform here the required actions to refresh the data (call a JSON API for example).
+    // Once the data has been updated, call the method isDoneRefreshing:
+    [self.myPTR isDoneRefreshing];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView  {
+    [self.myPTR viewDidScroll:scrollView];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.myPTR= [[PullToRefresh alloc] initWithNumberOfDots:5];
+    self.myPTR.delegate = self;
+    [self.view addSubview: self.myPTR];
 
     // Do any additional setup after loading the view.
 //    PFQuery *query = [PFQuery queryWithClassName:@"Video"];
