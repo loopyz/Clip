@@ -222,6 +222,7 @@
     if ([PFUser currentUser]) {
         [query whereKey:@"creator" equalTo:[PFUser currentUser]];
     }
+    [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (objects) {
             self.videos = objects;
