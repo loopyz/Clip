@@ -18,7 +18,7 @@ class LoginPage(webapp2.RequestHandler):
 class HomePage(webapp2.RequestHandler):
     def get(self):
         template_values = {}
-        template = JINJA_ENVIRONMENT.get_template('home.html')
+        template = JINJA_ENVIRONMENT.get_template('myCampaignsPage.html')
         self.response.out.write(template.render(template_values))
 
 class CreateCampaignPage(webapp2.RequestHandler):
@@ -35,6 +35,6 @@ class ViewCampaignPage(webapp2.RequestHandler):
         self.response.out.write(template.render(template_values))
 
 application = webapp2.WSGIApplication([('/', LoginPage),
-                                       ('/home', HomePage),
+                                       ('/campaigns', HomePage),
                                        ('/createCampaign', CreateCampaignPage),
                                        ('/viewCampaign', ViewCampaignPage),], debug=True)

@@ -9,7 +9,7 @@ $(function () {
         Parse.User.logIn(username, password, {
             success: function (user) {
                 console.log(user.get('username'));
-                window.open("home","_self");
+                window.open("campaigns","_self");
             }, error: function (user, error) {
                 console.log(error.code + ' ' + error.message);
                 // create new parse user
