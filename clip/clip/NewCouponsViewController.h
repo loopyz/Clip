@@ -7,9 +7,10 @@
 //
 
 #import "AppendableVideoMaker.h"
+#import "PullToRefresh.h"
 
 #import <UIKit/UIKit.h>
-#import "PullToRefresh.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface NewCouponsViewController : UITableViewController<BEMPullToRefreshDelegate>
 {
@@ -19,4 +20,7 @@
 
 @property (nonatomic, strong) UIScrollView *myScroll;
 @property (nonatomic, strong) PullToRefresh *myPTR;
+@property (nonatomic, strong) FBProfilePictureView *fbProfilePic;
+@property (nonatomic, strong) NSString *userid;
+@property (nonatomic, strong) UIView *profileSnippetView;
 @end
