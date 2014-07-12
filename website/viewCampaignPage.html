@@ -21,7 +21,7 @@
                 query.get(campaignId, {
                     success: function (campaign) {
                        var campaignInfo = '<h2>' + campaign.get('title') + '</h2><i>' + campaign.get('start_date') + '-' + campaign.get('end_date') + '</i><p>' + campaign.get('description') + '</p>'
-                                     + '<h2>' + campaign.get('youngestAge') + '-' + campaign.get('oldestAge') + '</h2><h2>' + campaign.get('state') + '</h2><h2>' + campaign.get('i1') + '</h2>';
+                                     + '<h2>' + campaign.get('youngestAge') + '-' + campaign.get('oldestAge') + '</h2><h2>' + campaign.get('state') + '</h2><h2>' + campaign.get('interests') + '</h2>';
                        document.getElementById('campaign_info').innerHTML = campaignInfo ; 
                     }, error: function (object, error) {
                         console.log("no campaign at " + campaignId);

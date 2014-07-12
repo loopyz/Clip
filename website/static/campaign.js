@@ -21,7 +21,7 @@ $(function () {
                 user.signUp(null, {
                     success: function (user) {
                         console.log("signed up");
-                        window.open("home","_self");
+                        window.open("campaigns","_self");
                     },
                     error: function (user, error) {
                         console.log("not signed up, some error " + error.code + " " + error.message);
@@ -40,11 +40,11 @@ $(function () {
         //var image = $('#image').val();
         var start_date = $('#start_date').val();
         var end_date = $('#end_date').val();
-        var expiration = $('#expiration').val()
-        var youngestAge = $('#youngestAge').val()
-        var oldestAge = $('#oldestAge').val()
-        var state = $('#state').val()
-        var i1 = $('#i1').val()
+        var expiration = $('#expiration').val();
+        var youngestAge = $('#youngestAge').val();
+        var oldestAge = $('#oldestAge').val();
+        var state = $('#state').val();
+        var interests = $('#interests').val();
         var campaign = new Campaign();
         
         campaign.set("title", title);
@@ -56,18 +56,18 @@ $(function () {
         campaign.set("youngestAge", parseInt(youngestAge));
         campaign.set("oldestAge", parseInt(oldestAge));
         campaign.set("state", state);
-        campaign.set("i1", i1);
+        campaign.set("interests", interests);
 
         var owner = Parse.User.current();
         var relation = owner.relation("campaigns");
-        campaign.set("owner", owner.username);
+        //campaign.set("owner", owner.username);
 
         campaign.save(null, {
             success: function(campaign) {
                 console.log('This campaign was saved');
                 relation.add(campaign);
                 owner.save();
-                var id = campaign.id
+                var id = campaign.id;
                 window.open("/viewCampaign?id=" + id, "_self");
             }, error: function(campaign, error) {
                 console.log("some error " + error.code + " "  + error.message);
