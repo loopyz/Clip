@@ -31,7 +31,7 @@
     // Setting up UINavigationController
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     self.navigationController = navigationController;
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:149/255.0f green:25/255.0f blue:48/255.0f alpha:1.0f]];
+    // [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:149/255.0f green:25/255.0f blue:48/255.0f alpha:1.0f]];
     
     
     // Updating self.window

@@ -45,6 +45,10 @@
 }
 - (void)initNavBar
 {
+    // Background image for navbar
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbg.png"]
+                                       forBarMetrics: UIBarMetricsDefault];
+    
     [self.navigationController.navigationBar setTranslucent:NO];
     UIBarButtonItem *lbb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"searchicon.png"]
                                                             style:UIBarButtonItemStylePlain
@@ -63,14 +67,19 @@
     
     
     // Right bar button item to launch the categories selection screen.
-    UIBarButtonItem *rbb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settigsicon.png"]
+    UIBarButtonItem *rbb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingsicon.png"]
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
-                                                           action:@selector(launchAddGameView)];
+                                                           action:@selector(settingsTouched)];
     
     rbb.tintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
     self.navigationItem.rightBarButtonItem = rbb;
     
+}
+
+- (void)settingsTouched
+{
+    //blah
 }
 
 - (void)viewDidLoad
@@ -126,7 +135,7 @@
 {
     switch (self.selectedIndex) {
         case 0: {
-            UIColor * color = [UIColor colorWithRed:149/255.0f green:25/255.0f blue:48/255.0f alpha:1.0f];
+            UIColor * color = [UIColor colorWithRed:149/255.0f green:25/255.0f blue:79/255.0f alpha:1.0f];
             self.view.tintColor = color;
             break;
         }
