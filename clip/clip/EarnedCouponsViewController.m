@@ -38,7 +38,9 @@
     
     // do querying
     PFQuery *query = [PFQuery queryWithClassName:@"Video"];
-    [query whereKey:@"creator" equalTo:[PFUser currentUser]];
+    if ([PFUser currentUser]) {
+        [query whereKey:@"creator" equalTo:[PFUser currentUser]];
+    }
     [query whereKeyExists:@"campaign"];
     [query whereKeyDoesNotExist:@"used"];
     [query includeKey:@"campaign"];

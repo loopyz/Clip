@@ -29,4 +29,7 @@
 @property (nonatomic, strong) PFObject *videoCampaign;
 @property (nonatomic, strong) NSMutableArray *campaigns;
 @property (nonatomic, assign) int videoId;
+
+- (id)initWithFacebookShit:(NSString *)userId userName:(NSString *)userName;
+
 @end
