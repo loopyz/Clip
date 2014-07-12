@@ -6,8 +6,15 @@
 //  Copyright (c) 2014 Niveditha Jayasekar. All rights reserved.
 //
 
+#import "KSVideoPlayerView.h"
+#import "PullToRefresh.h"
+
+
 #import <UIKit/UIKit.h>
 
-@interface NewsFeedViewController : UIViewController<UIScrollViewDelegate>
+@interface NewsFeedViewController : UITableViewController<UIScrollViewDelegate, BEMPullToRefreshDelegate>
+
+@property (nonatomic, strong) KSVideoPlayerView *player;
+@property (nonatomic, strong) PullToRefresh *ptr;
 
 @end

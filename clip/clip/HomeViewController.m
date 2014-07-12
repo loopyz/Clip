@@ -12,6 +12,7 @@
 #import "NewsFeedViewController.h"
 #import "ProfileViewController.h"
 
+#import <Parse/Parse.h>
 
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
 #define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
@@ -44,6 +45,10 @@
 }
 - (void)initNavBar
 {
+    // Background image for navbar
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbg.png"]
+                                       forBarMetrics: UIBarMetricsDefault];
+    
     [self.navigationController.navigationBar setTranslucent:NO];
     UIBarButtonItem *lbb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"searchicon.png"]
                                                             style:UIBarButtonItemStylePlain
@@ -62,20 +67,30 @@
     
     
     // Right bar button item to launch the categories selection screen.
-    UIBarButtonItem *rbb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settigsicon.png"]
+    UIBarButtonItem *rbb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingsicon.png"]
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
-                                                           action:@selector(launchAddGameView)];
+                                                           action:@selector(settingsTouched)];
     
     rbb.tintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
     self.navigationItem.rightBarButtonItem = rbb;
     
 }
 
+- (void)settingsTouched
+{
+    //blah
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    if (![[PFUser currentUser] objectForKey:@"type"]) {
+        [[PFUser currentUser] setObject:@"user" forKey:@"type"];
+        [[PFUser currentUser] saveInBackground];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -120,7 +135,7 @@
 {
     switch (self.selectedIndex) {
         case 0: {
-            UIColor * color = [UIColor colorWithRed:149/255.0f green:25/255.0f blue:48/255.0f alpha:1.0f];
+            UIColor * color = [UIColor colorWithRed:155/255.0f green:31/255.0f blue:73/255.0f alpha:1.0f];
             self.view.tintColor = color;
             break;
         }

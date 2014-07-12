@@ -8,6 +8,7 @@
 
 #import "AppendableVideoMaker.h"
 #import "PullToRefresh.h"
+#import "PullToRefresh.h"
 
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
@@ -23,4 +24,5 @@
 @property (nonatomic, strong) FBProfilePictureView *fbProfilePic;
 @property (nonatomic, strong) NSString *userid;
 @property (nonatomic, strong) UIView *profileSnippetView;
+@property (nonatomic, strong) NSString *videoCampaign;
 @end

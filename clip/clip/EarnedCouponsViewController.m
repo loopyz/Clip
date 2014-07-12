@@ -8,6 +8,9 @@
 
 #import "EarnedCouponsViewController.h"
 
+#define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
+
 @interface EarnedCouponsViewController ()
 
 @end
@@ -26,13 +29,29 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIEdgeInsets inset = UIEdgeInsetsMake(60, 0, 50, 0);
+    UIEdgeInsets inset = UIEdgeInsetsMake(0, 0, 50, 0);
     self.tableView.contentInset = inset;
+    
+    self.myPTR = [[PullToRefresh alloc] initWithNumberOfDots:5];
+    self.myPTR.delegate = self;
+    [self.view addSubview:self.myPTR];
+    
+    
     // Do any additional setup after loading the view.
     if (!expandedSections)
     {
         expandedSections = [[NSMutableIndexSet alloc] init];
     }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView  {
+    [self.myPTR viewDidScroll:scrollView];
+}
+
+- (void)Refresh {
+    // Perform here the required actions to refresh the data (call a JSON API for example).
+    // Once the data has been updated, call the method isDoneRefreshing:
+    [self.myPTR isDoneRefreshing];
 }
 
 - (void)didReceiveMemoryWarning
@@ -92,17 +111,45 @@
     {
         if (!indexPath.row)
         {
-            // first row
-            cell.textLabel.text = @"Expandable"; // only top row showing
-//            
-//            if ([expandedSections containsIndex:indexPath.section])
-//            {
-//                cell.backgroundColor = [UIColor redColor];
-//            }
-//            else
-//            {
-//                cell.backgroundColor = [UIColor clearColor];
-//            }
+            //setup name label
+            UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
+            UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(98, 5, 300, 50)];
+            [name setTextColor:nameColor];
+            [name setBackgroundColor:[UIColor clearColor]];
+            [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
+            
+            name.text = @"Free Breadsticks";
+            [cell addSubview:name];
+            
+            //setup expiration
+            UIColor *expColor = [UIColor colorWithRed:249/255.0f green:24/255.0f blue:95/255.0f alpha:1.0f];
+            UILabel *exp = [[UILabel alloc] initWithFrame:CGRectMake(98, 30, SCREEN_WIDTH - 120, 50)];
+            [exp setTextColor:expColor];
+            [exp setBackgroundColor:[UIColor clearColor]];
+            [exp setFont:[UIFont fontWithName:@"Avenir" size:13]];
+            
+            exp.text = @"EXP: 7/17/14";
+            exp.lineBreakMode = NSLineBreakByWordWrapping;
+            exp.numberOfLines = 0;
+            [cell addSubview:exp];
+            
+            //setup description
+            UIColor *descColor = [UIColor colorWithRed:136/255.0f green:136/255.0f blue:136/255.0f alpha:1.0f];
+            UILabel *desc = [[UILabel alloc] initWithFrame:CGRectMake(98, 50, SCREEN_WIDTH - 120, 50)];
+            [desc setTextColor:descColor];
+            [desc setBackgroundColor:[UIColor clearColor]];
+            [desc setFont:[UIFont fontWithName:@"Avenir" size:11]];
+            
+            desc.text = @"Offer good at any Pizza Hut in the US.";
+            desc.lineBreakMode = NSLineBreakByWordWrapping;
+            desc.numberOfLines = 0;
+            [cell addSubview:desc];
+            
+
+            //setup logo
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 58.5, 60)];
+            imgView.image = [UIImage imageNamed:@"pizzahut.png"];
+            [cell addSubview:imgView];
         }
         else
         {
@@ -111,11 +158,11 @@
             cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"qrbg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
             cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"qrbg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
             
-            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 114.5)/2, 17, 114.5, 114.5)];
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 247.5)/2, 27, 247.5, 91.5)];
             imgView.image = [UIImage imageNamed:@"qrborder.png"];
             [cell addSubview:imgView];
             
-            UIImageView *tempQR = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 100.5)/2, 22, 100.5, 100.5)];
+            UIImageView *tempQR = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 242)/2, 32, 242, 83.5)];
             tempQR.image = [UIImage imageNamed:@"tempqr.png"];
             [cell addSubview:tempQR];
         
@@ -190,6 +237,20 @@
             [self.tableView endUpdates];
         }
     }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return YES - we will be able to delete all rows
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Perform the real delete action here. Note: you may need to check editing style
+    //   if you do not perform delete only.
+    // [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    NSLog(@"Deleted row.");
 }
 
 

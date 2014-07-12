@@ -10,6 +10,7 @@
 
 #import "LoginViewController.h"
 #import "HomeViewController.h"
+#import "RegisterInformationViewController.h"
 
 @interface LoginViewController ()
 
@@ -62,10 +63,12 @@
             } else {
                 NSLog(@"Some error occured during FB Login Process.");
             }
-        } else if (user.isNew) {
+        } else if (user.isNew || ![user objectForKey:@"registered"]) {
             NSLog(@"User just joined the app. Successful login.");
-            HomeViewController *svc = [[HomeViewController alloc] init];
+            RegisterInformationViewController *svc = [[RegisterInformationViewController alloc] init];
             [self.navigationController pushViewController:svc animated:YES];
+//            HomeViewController *svc = [[HomeViewController alloc] init];
+//            [self.navigationController pushViewController:svc animated:YES];
         } else {
             NSLog(@"Successful login.");
             HomeViewController *svc = [[HomeViewController alloc] init];
@@ -90,7 +93,7 @@
     self.facebookButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.facebookButton setTitle:@"Show View" forState:UIControlStateNormal];
     
-    self.facebookButton.frame = CGRectMake((self.view.frame.size.width - 278)/2 + 3, 500, 278, 41);
+    self.facebookButton.frame = CGRectMake((self.view.frame.size.width - 278)/2 + 3, 495, 278, 41);
     [self.facebookButton addTarget:self action:@selector(normalLoginTouched) forControlEvents:UIControlEventTouchUpInside];
     
     UIImage *btnImage = [UIImage imageNamed:@"email-register.png"];
@@ -106,7 +109,7 @@
     self.facebookButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.facebookButton setTitle:@"Show View" forState:UIControlStateNormal];
     
-    self.facebookButton.frame = CGRectMake((self.view.frame.size.width - 278)/2 + 3, 450, 278, 41);
+    self.facebookButton.frame = CGRectMake((self.view.frame.size.width - 278)/2 + 3, 445, 278, 41);
     [self.facebookButton addTarget:self action:@selector(normalLoginTouched) forControlEvents:UIControlEventTouchUpInside];
     
     UIImage *btnImage = [UIImage imageNamed:@"email-login.png"];
@@ -122,7 +125,7 @@
     self.facebookButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.facebookButton setTitle:@"Show View" forState:UIControlStateNormal];
     
-    self.facebookButton.frame = CGRectMake((self.view.frame.size.width - 278)/2 + 3, 400, 278, 41);
+    self.facebookButton.frame = CGRectMake((self.view.frame.size.width - 278)/2 + 3, 395, 278, 41);
     [self.facebookButton addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
     
     UIImage *btnImage = [UIImage imageNamed:@"facebook-login.png"];

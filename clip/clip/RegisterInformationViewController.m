@@ -7,6 +7,9 @@
 //
 
 #import "RegisterInformationViewController.h"
+#import "HomeViewController.h"
+
+#import <Parse/Parse.h>
 
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
 #define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
@@ -47,9 +50,22 @@
     [self.scrollView addSubview:submitButton];
 }
 
-- (void)buttonTouched:(id)self
+- (IBAction)buttonTouched:(id)sender
 {
+    PFUser *user = [PFUser currentUser];
     
+    for (NSInteger i = 0; i < [self.formTable numberOfRowsInSection:0]; ++i)
+    {
+        ELCTextFieldCell *cell = [self.formTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        NSString *text = [[cell rightTextField] text];
+        [user setObject:text forKey:self.fields[i]];
+    }
+    [user setObject:@true forKey:@"registered"];
+    [user saveInBackground];
+    
+    // open home view controller
+    HomeViewController *svc = [[HomeViewController alloc] init];
+    [self.navigationController pushViewController:svc animated:YES];
 }
 
 - (void)setupTable
@@ -88,6 +104,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.fields = [NSMutableArray arrayWithObjects:@"college", @"year", @"age", @"i1", @"i2", @"i3", @"greek", @"country", @"state", nil];
     self.labels = [NSArray arrayWithObjects:@"College (Optional)",
                    @"Year (Optional)",
                    @"Enter Age (Optional)",

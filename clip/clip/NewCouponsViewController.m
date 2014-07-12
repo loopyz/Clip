@@ -53,6 +53,7 @@
                 [video setObject:file forKey:@"file"];
                 [video setObject:fileType forKey:@"fileType"];
                 [video setObject:[PFUser currentUser] forKey:@"creator"];
+                [video setObject:self.videoCampaign forKey:@"campaign"];
                 [video saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (error) {
                         NSLog(@"hey video object no saving");
@@ -106,15 +107,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIEdgeInsets inset = UIEdgeInsetsMake(0, 0, 50, 0);
+    self.tableView.contentInset = inset;
 //    UIEdgeInsets inset = UIEdgeInsetsMake(60, 0, 0, 0);
 //    self.tableView.contentInset = inset;
 //    
-//    // Do any additional setup after loading the view.
-//    
-//    //setup pull to refresh
-//    self.myPTR = [[PullToRefresh alloc] initWithNumberOfDots:5];
-//    self.myPTR.delegate = self;
-//    [self.view addSubview:self.myPTR];
+    // Do any additional setup after loading the view.
+    
+    //setup pull to refresh
+    self.myPTR = [[PullToRefresh alloc] initWithNumberOfDots:5];
+    self.myPTR.delegate = self;
+    [self.view addSubview:self.myPTR];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView  {
@@ -218,21 +221,21 @@
     [numScore setTextColor:[UIColor colorWithRed:68/255.0f green:203/255.0f blue:154/255.0f alpha:1.0f]];
     [numScore setBackgroundColor:[UIColor clearColor]];
     numScore.textAlignment = NSTextAlignmentCenter;
-    [numScore setFont:[UIFont fontWithName:@"Avenir-Light" size:22]];
+    [numScore setFont:[UIFont fontWithName:@"Avenir-Book" size:22]];
     numScore.text = @"123";
     
     UILabel *numoffers = [[UILabel alloc] initWithFrame:CGRectMake(190, 50, 25, 50)];
     [numoffers setTextColor:[UIColor colorWithRed:105/255.0f green:32/255.0f blue:213/255.0f alpha:1.0f]];
     [numoffers setBackgroundColor:[UIColor clearColor]];
     numoffers.textAlignment = NSTextAlignmentCenter;
-    [numoffers setFont:[UIFont fontWithName:@"Avenir-Light" size:22]];
+    [numoffers setFont:[UIFont fontWithName:@"Avenir-Book" size:22]];
     numoffers.text = @"8";
     
     UILabel *numPending = [[UILabel alloc] initWithFrame:CGRectMake(262, 50, 32, 50)];
     [numPending setTextColor:[UIColor colorWithRed:206/255.0f green:34/255.0f blue:155/255.0f alpha:1.0f]];
     [numPending setBackgroundColor:[UIColor clearColor]];
     numPending.textAlignment = NSTextAlignmentCenter;
-    [numPending setFont:[UIFont fontWithName:@"Avenir-Light" size:22]];
+    [numPending setFont:[UIFont fontWithName:@"Avenir-Book" size:22]];
     numPending.text = @"2";
 
     [view addSubview:score];
@@ -260,8 +263,34 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     }
     
-    cell.textLabel.text = @"meowwww";
     cell.backgroundColor = [UIColor clearColor];
+    
+    //setup name label
+    UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
+    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(98, 5, 300, 50)];
+    [name setTextColor:nameColor];
+    [name setBackgroundColor:[UIColor clearColor]];
+    [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
+    
+    name.text = @"Free Breadsticks";
+    [cell addSubview:name];
+    
+    //setup description
+    UIColor *descColor = [UIColor colorWithRed:136/255.0f green:136/255.0f blue:136/255.0f alpha:1.0f];
+    UILabel *desc = [[UILabel alloc] initWithFrame:CGRectMake(98, 43, SCREEN_WIDTH - 120, 50)];
+    [desc setTextColor:descColor];
+    [desc setBackgroundColor:[UIColor clearColor]];
+    [desc setFont:[UIFont fontWithName:@"Avenir" size:10]];
+    
+    desc.text = @"Do you love free breadsticks? Do you like taking funny videos? Send us a funny video with a pizza joke and we'll give you some free breadsticks in return!";
+    desc.lineBreakMode = NSLineBreakByWordWrapping;
+    desc.numberOfLines = 0;
+    [cell addSubview:desc];
+    
+    //setup logo
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 58.5, 60)];
+    imgView.image = [UIImage imageNamed:@"pizzahut.png"];
+    [cell addSubview:imgView];
     
     return cell;
 }
@@ -269,6 +298,7 @@
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self makeVideo];
+    self.videoCampaign = @"This one";
     // blah
 }
 
