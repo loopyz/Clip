@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 
+#import <Parse/Parse.h>
+
 #import "LoginViewController.h"
 
 @implementation AppDelegate
@@ -15,6 +17,15 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    // Override point for customization after application launch.
+    // adding Parse
+    [Parse setApplicationId:@"zJDkcisSASpMHkV9VCpEJFbkrO16eJv6g1i5UxjU"
+                  clientKey:@"7BA6oAEIQeGAsrNhUXf6RQIDry4DaUnp3gxY3Yzb"];
+    
+    // testing Parse
+    PFObject *testObject = [PFObject objectWithClassName:@"TestObject"];
+    testObject[@"foo"] = @"bar";
+    [testObject saveInBackground];
     
     // Create a LoginUIViewController instance where we will put the login button
     LoginViewController *loginViewController = [[LoginViewController alloc] init];
@@ -24,8 +35,6 @@
     self.navigationController = navigationController;
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:149/255.0f green:25/255.0f blue:48/255.0f alpha:1.0f]];
     
-    // For Parse
-    // set up parse
     
     // Updating self.window
     self.window.rootViewController = navigationController;
