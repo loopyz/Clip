@@ -6,6 +6,7 @@
             Parse.initialize("zJDkcisSASpMHkV9VCpEJFbkrO16eJv6g1i5UxjU", "NYTIqi6mJbKUr3AbR8JpofmqRfYpWOrz6shdngud");
         </script>-->
         <script type="text/javascript" src="/static/campaign.js"></script>
+<<<<<<< HEAD
         <script type="text/javascript">
             $(function () {
                 Parse.initialize("zJDkcisSASpMHkV9VCpEJFbkrO16eJv6g1i5UxjU", "NYTIqi6mJbKUr3AbR8JpofmqRfYpWOrz6shdngud");
@@ -17,23 +18,204 @@
                 }
             })
         </script>
+=======
+        <!-- CSS -->
+        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <style> 
+            @import url(http://fonts.googleapis.com/css?family=Raleway:400,700);
+            body {
+                background: #7f9b4e url(http://2.bp.blogspot.com/-p62W82y9NyU/UcxBG1_eVTI/AAAAAAAAAsk/Z-qd4BKU75A/s1600/13.jpg) no-repeat center top;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                background-size: cover;
+            }
+            .container > header h1,
+            .container > header h2 {
+                color: #fff;
+                text-shadow: 0 1px 1px rgba(0,0,0,0.7);
+            }
+
+            .control-label {
+                color: white;
+                font-size: 20px;
+            }
+
+            .form-control {
+                opacity: .8;
+                border-color: white;
+            }
+        </style>
+>>>>>>> d89b6291217ae40fd2a8b9160b46fb9911a8b9f8
     </head>
     <body>
-        Fill out this form to create a new campaign. <br><br>
-      
-        <form id="create_campaign_form" name="input" method="post">
-            Title: <input type="text" name="title" id="title"> <br> <br>
-            Description: <textarea type="text" name="description" id="description"></textarea> <br> <br>
-            Coupon Image: <input type="file" name="file" id="file"> <br> <br>
-            Start Date: <input type="text" name="start_date" id="start_date"> <br> <br>
-            End Date: <input type="text" name="end_date" id="end_date"> <br>
-            Coupon Expiration: <input type="text" name="expiration" id="expiration"> <br> <br> <br>
 
-            Targeted audience of your campaign. <br> <br>
-            Age Range: <input type="text" name="youngestAge" id="youngestAge"> to <input type="text" name="oldestAge" id="oldestAge"> <br> <br>
-            State: <input type="text" name="state" id="state"> <br> <br>
-            Interest: <input type="text" name="i1" id="i1"><br> <br>
-            <input type="submit" value="Submit">
-        </form>  
+        <!-- new form id -->
+
+        <form id = "create_campaign_form" class="form-horizontal" name="input" method="post">
+            <fieldset>
+
+            <!-- Form Name -->
+            <center><legend><label class="control-label" style="font-size:30px;">Create New Campaign</label></legend></center>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="textinput">Title</label>  
+              <div class="col-md-4">
+              <input id="textinput" name="title" id="title" type="text" placeholder="Enter Title" class="form-control input-md" required="">
+                
+              </div>
+            </div>
+
+            <!-- Textarea -->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="textarea">Description</label>
+              <div class="col-md-4">                     
+                <textarea class="form-control" id="description" name="description">Write description of campaign</textarea>
+              </div>
+            </div>
+
+            <!-- File Button --> 
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="filebutton">Coupon Image</label>
+              <div class="col-md-4">
+                <input id="file" name="file" class="input-file" type="file">
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="textinput">Start Date</label>  
+              <div class="col-md-4">
+              <input id="textinput" name="start_date" id="start_date" type="text" placeholder="Enter Start Date" class="form-control input-md" required="">
+                
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="textinput">End Date</label>  
+              <div class="col-md-4">
+              <input id="end_date" name="end_date" type="text" placeholder="Enter End Date" class="form-control input-md" required="">
+                
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="textinput">Coupon Expiration</label>  
+              <div class="col-md-4">
+              <input id="expiration" name="expiration" type="text" placeholder="Enter Expiration Date" class="form-control input-md" required="">
+                
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="">Age Range</label>  
+              <div class="col-md-2">
+              <input id="youngestAge" name="youngestAge" type="text" placeholder="" class="form-control input-sm"> <label class="control-label">to</label> <input id="oldestAge" name="oldestAge" type="text" placeholder="" class="form-control input-sm">
+                
+              </div>
+            </div>
+
+            <!-- Select Basic -->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="selectbasic">State</label>
+              <div class="col-md-4">
+                <select id="selectbasic" name="state" id="state" class="form-control">
+                  <option value="Alabama">Alabama</option>
+                  <option value="Alaska">Alaska</option>
+                  <option value="Arizona">Arizona</option>
+                  <option value="Arkansas">Arkansas</option>
+                  <option value="California">California</option>
+                  <option value="Colorado">Colorado</option>
+                  <option value="Connecticut">Connecticut</option>
+                  <option value="Delaware">Delaware</option>
+                  <option value="Florida">Florida</option>
+                  <option value="Georgia">Georgia</option>
+                  <option value="Hawaii">Hawaii</option>
+                  <option value="Idaho">Idaho</option>
+                  <option value="Illinois">Illinois</option>
+                  <option value="Indiana">Indiana</option>
+                  <option value="Iowa">Iowa</option>
+                  <option value="Kansas">Kansas</option>
+                  <option value="Kentucky">Kentucky</option>
+                  <option value="Louisiana">Louisiana</option>
+                  <option value="Maine">Maine</option>
+                  <option value="Maryland">Maryland</option>
+                  <option value="Massachusetts">Massachusetts</option>
+                  <option value="Michigan">Michigan</option>
+                  <option value="Minnesota">Minnesota</option>
+                  <option value="Mississippi">Mississippi</option>
+                  <option value="Missouri">Missouri</option>
+                  <option value="Montana">Montana</option>
+                  <option value="Nebraska">Nebraska</option>
+                  <option value="Nevada">Nevada</option>
+                  <option value="New Hampshire">New Hampshire</option>
+                  <option value="New Jersey">New Jersey</option>
+                  <option value="New Mexico">New Mexico</option>
+                  <option value="New York">New York</option>
+                  <option value="North Carolina">North Carolina</option>
+                  <option value="North Dakota">North Dakota</option>
+                  <option value="Ohio">Ohio</option>
+                  <option value="Oklahoma">Oklahoma</option>
+                  <option value="Oregon">Oregon</option>
+                  <option value="Pennsylvania">Pennsylvania</option>
+                  <option value="Rhode Island">Rhode Island</option>
+                  <option value="South Carolina">South Carolina</option>
+                  <option value="South Dakota">South Dakota</option>
+                  <option value="Tennessee">Tennessee</option>
+                  <option value="Texas">Texas</option>
+                  <option value="Utah">Utah</option>
+                  <option value="Vermont">Vermont</option>
+                  <option value="Virginia">Virginia</option>
+                  <option value="Washington">Washington</option>
+                  <option value="West Virginia">West Virginia</option>
+                  <option value="Wisconsin">Wisconsin</option>
+                  <option value="Wyoming">Wyoming</option>
+                  <option value="District of Columbia">District of Columbia</option>
+                  <option value="Puerto Rico">Puerto Rico</option>
+                  <option value="Guam">Guam</option>
+                  <option value="American Samoa">American Samoa</option>
+                  <option value="U.S. Virgin Islands">U.S. Virgin Islands</option>
+                  <option value="Northern Mariana Islands">Northern Mariana Islands</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Select Multiple -->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="selectmultiple">Interests</label>
+              <div class="col-md-4">
+                <select id="interests" name="interests" class="form-control" multiple="multiple">
+                  <option value="1">Academics</option>
+                  <option value="2">Sports</option>
+                  <option value="3">Service</option>
+                  <option value="4">Adrenaline</option>
+                  <option value="5">Cooking</option>
+                  <option value="6">Tech</option>
+                  <option value="7">Entrepreneurship</option>
+                  <option value="8">Engineering</option>
+                  <option value="9">Journalism</option>
+                  <option value="10">Literature</option>
+                  <option value="11">History</option>
+                  <option value="12">Cheerleading</option>
+                  <option value="13">Greek Life</option>
+                  <option value="14">Research</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="submit"></label>
+              <div class="col-md-4">
+                <button id="submit" name="submit" class="btn btn-primary">submit</button>
+              </div>
+            </div>
+
+            </fieldset>
+            </form>  
   </body>
 </html>
