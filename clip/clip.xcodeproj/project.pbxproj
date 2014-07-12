@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D3458621970DB67007B2464 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3458611970DB67007B2464 /* LoginViewController.m */; };
+		8D3458691970DB73007B2464 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3458641970DB73007B2464 /* background.png */; };
+		8D34586A1970DB73007B2464 /* email-login.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3458651970DB73007B2464 /* email-login.png */; };
+		8D34586B1970DB73007B2464 /* email-register.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3458661970DB73007B2464 /* email-register.png */; };
+		8D34586C1970DB73007B2464 /* facebook-login.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3458671970DB73007B2464 /* facebook-login.png */; };
+		8D34586D1970DB73007B2464 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3458681970DB73007B2464 /* logo.png */; };
+		8D3458701970DBC0007B2464 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D34586F1970DBC0007B2464 /* HomeViewController.m */; };
 		F030A5C11970D4EE0007F805 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F030A5C01970D4EE0007F805 /* Foundation.framework */; };
 		F030A5C31970D4EE0007F805 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F030A5C21970D4EE0007F805 /* CoreGraphics.framework */; };
 		F030A5C51970D4EE0007F805 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F030A5C41970D4EE0007F805 /* UIKit.framework */; };
@@ -35,6 +42,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D3458601970DB67007B2464 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		8D3458611970DB67007B2464 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		8D3458641970DB73007B2464 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		8D3458651970DB73007B2464 /* email-login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "email-login.png"; sourceTree = "<group>"; };
+		8D3458661970DB73007B2464 /* email-register.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "email-register.png"; sourceTree = "<group>"; };
+		8D3458671970DB73007B2464 /* facebook-login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook-login.png"; sourceTree = "<group>"; };
+		8D3458681970DB73007B2464 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		8D34586E1970DBC0007B2464 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		8D34586F1970DBC0007B2464 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		F030A5BD1970D4EE0007F805 /* clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = clip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F030A5C01970D4EE0007F805 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F030A5C21970D4EE0007F805 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -81,6 +97,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D3458631970DB73007B2464 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				8D3458641970DB73007B2464 /* background.png */,
+				8D3458651970DB73007B2464 /* email-login.png */,
+				8D3458661970DB73007B2464 /* email-register.png */,
+				8D3458671970DB73007B2464 /* facebook-login.png */,
+				8D3458681970DB73007B2464 /* logo.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
 		F030A5B41970D4ED0007F805 = {
 			isa = PBXGroup;
 			children = (
@@ -115,11 +143,16 @@
 		F030A5C81970D4EE0007F805 /* clip */ = {
 			isa = PBXGroup;
 			children = (
+				8D3458631970DB73007B2464 /* images */,
 				F030A5D11970D4EE0007F805 /* AppDelegate.h */,
 				F030A5D21970D4EE0007F805 /* AppDelegate.m */,
 				F030A5D71970D4EE0007F805 /* Images.xcassets */,
 				F030A5D41970D4EE0007F805 /* clip.xcdatamodeld */,
 				F030A5C91970D4EE0007F805 /* Supporting Files */,
+				8D3458601970DB67007B2464 /* LoginViewController.h */,
+				8D3458611970DB67007B2464 /* LoginViewController.m */,
+				8D34586E1970DBC0007B2464 /* HomeViewController.h */,
+				8D34586F1970DBC0007B2464 /* HomeViewController.m */,
 			);
 			path = clip;
 			sourceTree = "<group>";
@@ -228,8 +261,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D34586A1970DB73007B2464 /* email-login.png in Resources */,
 				F030A5CD1970D4EE0007F805 /* InfoPlist.strings in Resources */,
+				8D3458691970DB73007B2464 /* background.png in Resources */,
 				F030A5D81970D4EE0007F805 /* Images.xcassets in Resources */,
+				8D34586D1970DB73007B2464 /* logo.png in Resources */,
+				8D34586B1970DB73007B2464 /* email-register.png in Resources */,
+				8D34586C1970DB73007B2464 /* facebook-login.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,8 +286,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D3458621970DB67007B2464 /* LoginViewController.m in Sources */,
 				F030A5D61970D4EE0007F805 /* clip.xcdatamodeld in Sources */,
 				F030A5D31970D4EE0007F805 /* AppDelegate.m in Sources */,
+				8D3458701970DBC0007B2464 /* HomeViewController.m in Sources */,
 				F030A5CF1970D4EE0007F805 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -447,6 +487,7 @@
 				F030A5F11970D4EE0007F805 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F030A5F21970D4EE0007F805 /* Build configuration list for PBXNativeTarget "clipTests" */ = {
 			isa = XCConfigurationList;
@@ -455,6 +496,7 @@
 				F030A5F41970D4EE0007F805 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
