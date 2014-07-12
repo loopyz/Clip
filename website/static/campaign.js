@@ -21,7 +21,7 @@ $(function () {
                 user.signUp(null, {
                     success: function (user) {
                         console.log("signed up");
-                        window.open("home","_self");
+                        window.open("campaigns","_self");
                     },
                     error: function (user, error) {
                         console.log("not signed up, some error " + error.code + " " + error.message);
@@ -44,7 +44,7 @@ $(function () {
         var youngestAge = $('#youngestAge').val()
         var oldestAge = $('#oldestAge').val()
         var state = $('#state').val()
-        var i1 = $('#i1').val()
+        var interests = $('#interests').val()
         var campaign = new Campaign();
         
         campaign.set("title", title);
@@ -56,7 +56,7 @@ $(function () {
         campaign.set("youngestAge", parseInt(youngestAge));
         campaign.set("oldestAge", parseInt(oldestAge));
         campaign.set("state", state);
-        campaign.set("i1", i1);
+        campaign.set("interests", interests);
 
         var owner = Parse.User.current();
         var relation = owner.relation("campaigns");
