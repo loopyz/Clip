@@ -23,4 +23,5 @@
 @property (nonatomic, strong) FBProfilePictureView *fbProfilePic;
 @property (nonatomic, strong) NSString *userid;
 @property (nonatomic, strong) UIView *profileSnippetView;
+@property (nonatomic, strong) NSString *videoCampaign;
 @end
