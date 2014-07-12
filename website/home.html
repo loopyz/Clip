@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+	    <script src="//www.parsecdn.com/js/parse-1.2.19.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="/static/campaign.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://tympanus.net/Tutorials/SamsungGrid/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="http://tympanus.net/Tutorials/SamsungGrid/css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="http://tympanus.net/Tutorials/SamsungGrid/css/component.css" />
+
+    <style> 
+            @import url(http://fonts.googleapis.com/css?family=Raleway:400,700);
+            body {
+                background: #7f9b4e url(http://2.bp.blogspot.com/-p62W82y9NyU/UcxBG1_eVTI/AAAAAAAAAsk/Z-qd4BKU75A/s1600/13.jpg) no-repeat center top;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                background-size: cover;
+            }
+            .container > header h1,
+            .container > header h2 {
+                color: #fff;
+                text-shadow: 0 1px 1px rgba(0,0,0,0.7);
+            }
+        </style>
+
+    <script src="js/modernizr.custom.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                Parse.initialize("zJDkcisSASpMHkV9VCpEJFbkrO16eJv6g1i5UxjU", "NYTIqi6mJbKUr3AbR8JpofmqRfYpWOrz6shdngud");
+                var user = Parse.User.current();
+                var relation = user.relation("campaigns");
+
+                var Campaign = Parse.Object.extend("Campaign");
+                var list = '<ol>';
+                relation.query().find({
+                    success: function(result) {
+                        for (var i = 0; i < result.length; i++) {
+                            var id = result[i].id;
+                            list += "<li><a href='/viewCampaign?id=" + id + "'><img src='http://tympanus.net/Tutorials/SamsungGrid/img/1.jpg'><h3>" + result[i].get('title') + "</h3></a></li>";
+                        }
+                        list += '</ol>';
+                        document.getElementById('results').innerHTML = list;
+                    }
+                });
+            });
+        </script>
+  </head>
+  <body>
+      <section class="grid-wrap">
+        <ul class="grid swipe-down" id="grid">
+          <li class="title-box">
+            <h2><a href="/createCampaign">Create</a> a campaign</h2>
+          </li>
+      
+      <div id="results"></div>
+    </ul>
+  </section>
+  </body>
+</html>

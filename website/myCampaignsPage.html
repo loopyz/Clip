@@ -2,9 +2,23 @@
 
 <html>
     <head>
-	    <script src="//www.parsecdn.com/js/parse-1.2.19.min.js"></script>
+        <script src="//www.parsecdn.com/js/parse-1.2.19.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script type="text/javascript" src="/static/campaign.js"></script>
+            <style> 
+            @import url(http://fonts.googleapis.com/css?family=Raleway:400,700);
+            body {
+                background: #7f9b4e url(http://2.bp.blogspot.com/-p62W82y9NyU/UcxBG1_eVTI/AAAAAAAAAsk/Z-qd4BKU75A/s1600/13.jpg) no-repeat center top;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                background-size: cover;
+            }
+            .container > header h1,
+            .container > header h2 {
+                color: #fff;
+                text-shadow: 0 1px 1px rgba(0,0,0,0.7);
+            }
+        </style>
         <script type="text/javascript">
             $(function () {
 
@@ -20,24 +34,58 @@
                 var relation = user.relation("campaigns");
 
                 var Campaign = Parse.Object.extend("Campaign");
-                var list = '<ul style="list-style-type:none;">';
+                var list = '<ul class="ul-style"><center>';
                 relation.query().descending('createdAt').find({
                     success: function(result) {
                         document.getElementById('campaigncount').innerHTML = '' + result.length;
                         for (var i = 0; i < result.length; i++) {
                             var id = result[i].id;
-                            list += "<li><a class='clist' href='/viewCampaign?id=" + id + "'</a>" + result[i].get('title') + '</li>';
+                            list += "<li><a class='clist' href='/viewCampaign?id=" + id + "'</a><h3>" + result[i].get('title') + '</h3></li>';
                         }
-                        list += '</ul>';
+                        list += '</center></ul>';
                         document.getElementById('results').innerHTML = list;
                     }
                 });
             });
         </script>
+        <style>
+            .header {
+                text-align:center;
+                font-weight: 900;
+            }
+            .create-btn {
+                position: fixed;
+display: block;
+right: 20px;
+top: 10px;
+font-size: 18px;
+padding: 20px;
+text-decoration: none;
+color: white;
+background: black;
+            }
+            .ul-style {
+                list-style-type: none;
+margin-top: 40px;
+            }
+            .clist {
+                text-decoration: none;
+color: white;
+background: black;
+opacity:.5;
+display: block;
+border-radius: 9px;
+width: 40%;
+line-height: 59px;
+height: 58px;
+font-size: 18px;
+text-align: center;
+            }
+        </style>
   </head>
   <body>
-      <h2> My Campaigns: (<span id="campaigncount"></span>)</h2>
-      <a href="/createCampaign">Create a campaign</a>
+      <h2 class="header"> My Campaigns: (<span id="campaigncount"></span>)</h2>
+      <a class="create-btn" href="/createCampaign">Create a campaign</a>
       <div id="results"></div>
   </body>
 </html>
