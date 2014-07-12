@@ -142,11 +142,11 @@
             cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"qrbg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
             cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"qrbg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
             
-            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 114.5)/2, 17, 114.5, 114.5)];
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 247.5)/2, 27, 247.5, 91.5)];
             imgView.image = [UIImage imageNamed:@"qrborder.png"];
             [cell addSubview:imgView];
             
-            UIImageView *tempQR = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 100.5)/2, 22, 100.5, 100.5)];
+            UIImageView *tempQR = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 242)/2, 32, 242, 83.5)];
             tempQR.image = [UIImage imageNamed:@"tempqr.png"];
             [cell addSubview:tempQR];
         
