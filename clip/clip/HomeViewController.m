@@ -39,8 +39,15 @@
 
 - (void)initNavBar
 {
-    [self.navigationController.navigationBar setBarTintColor:[UIColor greenColor]];
     [self.navigationController.navigationBar setTranslucent:NO];
+        
+    UIBarButtonItem *lbb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"searchicon.png"]
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(launchAddGameView)];
+    
+    lbb.tintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+    self.navigationItem.leftBarButtonItem = lbb;
     
     // Logo in the center of navigation bar
     UIView *logoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 43.5, 30)];
@@ -58,6 +65,7 @@
     
     rbb.tintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
     self.navigationItem.rightBarButtonItem = rbb;
+    
 }
 
 - (void)viewDidLoad

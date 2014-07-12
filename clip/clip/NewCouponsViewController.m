@@ -19,8 +19,18 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        [self addProfile];
     }
     return self;
+}
+
+- (void)addProfile
+{
+    //add background
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 60, 321, 115)];
+    
+    imgView.image = [UIImage imageNamed:@"profile.png"];
+    [self.view addSubview:imgView];
 }
 
 - (void)viewDidLoad

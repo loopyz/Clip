@@ -7,6 +7,7 @@
 //
 
 #import "NewsFeedViewController.h"
+#import "PullToRefresh.h"
 
 @interface NewsFeedViewController ()
 
