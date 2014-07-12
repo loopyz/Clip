@@ -35,6 +35,15 @@
     return self;
 }
 
+- (id)initWithFacebookShit:(NSString *)userId userName:(NSString *)userName
+{
+    self = [super initWithNibName:nil bundle:nil];
+    if (self) {
+        //custom stuff
+    }
+    return self;
+}
+
 - (void) uploadVideo
 {
     if (videoMaker && [videoMaker videoIsReady])
