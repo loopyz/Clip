@@ -65,6 +65,31 @@
     }
 }
 
+- (void) refreshView
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"Video"];
+    if ([PFUser currentUser]) {
+        [query whereKey:@"creator" equalTo:[PFUser currentUser]];
+    }
+    [query whereKeyExists:@"campaign"];
+    [query whereKeyDoesNotExist:@"used"];
+    [query includeKey:@"campaign"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (objects && !error) {
+            self.coupons = [[NSMutableArray alloc] initWithArray:objects];
+            [self.tableView reloadData];
+        } else {
+            NSLog(@"some error at querying for won coupons");
+        }
+        
+    }];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self refreshView];
+}
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView  {
     [self.myPTR viewDidScroll:scrollView];
 }
@@ -139,8 +164,8 @@
             [name setBackgroundColor:[UIColor clearColor]];
             [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
             
-            PFObject *coupon = self.coupons[indexPath.row];
-            name.text = @"Free Breadsticks";
+            PFObject *coupon = [self.coupons[indexPath.row] objectForKey:@"campaign"];
+            name.text = [coupon objectForKey:@"title"];//@"Free Breadsticks";
             [cell addSubview:name];
             
             //setup expiration
@@ -149,8 +174,8 @@
             [exp setTextColor:expColor];
             [exp setBackgroundColor:[UIColor clearColor]];
             [exp setFont:[UIFont fontWithName:@"Avenir" size:13]];
-            
-            exp.text = @"EXP: 7/17/14";
+
+            exp.text = [NSString stringWithFormat:@"EXP: %@", [coupon objectForKey:@"expiration"]];//@"EXP: 7/17/14";
             exp.lineBreakMode = NSLineBreakByWordWrapping;
             exp.numberOfLines = 0;
             [cell addSubview:exp];
@@ -162,7 +187,7 @@
             [desc setBackgroundColor:[UIColor clearColor]];
             [desc setFont:[UIFont fontWithName:@"Avenir" size:11]];
             
-            desc.text = @"Offer good at any Pizza Hut in the US.";
+            desc.text = [coupon objectForKey:@"description"];//@"Offer good at any Pizza Hut in the US.";
             desc.lineBreakMode = NSLineBreakByWordWrapping;
             desc.numberOfLines = 0;
             [cell addSubview:desc];

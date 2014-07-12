@@ -46,6 +46,7 @@
     self.ptr.delegate = self;
     [self.view addSubview:self.ptr];
     PFQuery *query = [PFQuery queryWithClassName:@"Video"];
+    [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (objects) {
             self.videos = objects;
