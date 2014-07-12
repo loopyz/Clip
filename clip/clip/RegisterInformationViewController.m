@@ -11,8 +11,8 @@
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
 #define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
 
-@interface RegisterInformationViewController ()
-
+@interface RegisterInformationViewController (Private)
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
 
 @implementation RegisterInformationViewController
@@ -25,8 +25,45 @@
         [self setupScrollView];
         [self setupWelcome];
         [self setupAvatar];
+        [self setupTable];
+        [self setupSubmitButton];
     }
     return self;
+}
+
+- (void)setupSubmitButton
+{
+    // Do any additional setup after loading the view.
+    UIButton *submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [submitButton setTitle:@"Show View" forState:UIControlStateNormal];
+    
+    submitButton.frame = CGRectMake(0, 800, 320, 47.5);
+    [submitButton addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIImage *btnImage = [UIImage imageNamed:@"submitbutton.png"];
+    [submitButton setImage:btnImage forState:UIControlStateNormal];
+    submitButton.contentMode = UIViewContentModeScaleToFill;
+    
+    [self.scrollView addSubview:submitButton];
+}
+
+- (void)buttonTouched:(id)self
+{
+    
+}
+
+- (void)setupTable
+{
+    
+    CGRect tableViewRect = CGRectMake(0, 330, SCREEN_WIDTH, 140);
+    
+    self.formTable = [[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain];
+    self.formTable.delegate = self;
+    self.formTable.dataSource = self;
+    self.formTable.backgroundColor = [UIColor clearColor];
+    [self.formTable setRowHeight:50];
+    [self.formTable setAllowsSelection:YES];
+    [self.scrollView addSubview:self.formTable];
 }
 
 - (void)setupScrollView
@@ -35,7 +72,7 @@
     self.scrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT); //scroll view occupies full parent view!
     //specify CGRect bounds in place of self.view.bounds to make it as a portion of parent view!
     
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 800);   //scroll view size
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 870);   //scroll view size
     
     self.scrollView.showsVerticalScrollIndicator = NO;    // to hide scroll indicators!
     
@@ -51,6 +88,27 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.labels = [NSArray arrayWithObjects:@"College (Optional)",
+                   @"Year (Optional)",
+                   @"Enter Age (Optional)",
+                   @"Interest 1 (Optional)",
+                   @"Interest 2 (Optional)",
+                   @"Interest 3 (Optional)",
+                   @"Sorority/Fraternity (Optional)",
+                   @"Country",
+                   @"State",
+                   nil];
+	
+	self.placeholders = [NSArray arrayWithObjects:@"Enter College (Optional)",
+                         @"Enter Year (Optional)",
+                         @"Enter Age (Optional)",
+                         @"Enter Interest (Optional)",
+                         @"Enter Interest (Optional)",
+                         @"Enter Interest (Optional)",
+                         @"Enter Sorority or Fraternity (Optional)",
+                         @"Enter Country",
+                         @"Enter State",
+                         nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -98,15 +156,77 @@
     
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark -
+#pragma mark Table view data source
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)configureCell:(ELCTextFieldCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+	
+	cell.leftLabel.text = [self.labels objectAtIndex:indexPath.row];
+	cell.rightTextField.placeholder = [self.placeholders objectAtIndex:indexPath.row];
+	cell.indexPath = indexPath;
+	cell.delegate = self;
+    //Disables UITableViewCell from accidentally becoming selected.
+    cell.selectionStyle = UITableViewCellEditingStyleNone;
+    
+	
+//	if (indexPath.row == 3) {
+//        [cell.rightTextField setKeyboardType:UIKeyboardTypeNumberPad];
+//	}
 }
-*/
+
+// Customize the number of sections in the table view.
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+
+// Customize the number of rows in the table view.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    self.formTable.frame = CGRectMake(0, 330, SCREEN_WIDTH, 9 * 60);
+    return 9;
+}
+
+
+// Customize the appearance of table view cells.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *CellIdentifier = @"Cell";
+    
+    ELCTextFieldCell *cell = (ELCTextFieldCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[ELCTextFieldCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier];
+    }
+	
+	[self configureCell:cell atIndexPath:indexPath];
+    
+    return cell;
+}
+
+
+#pragma mark ELCTextFieldCellDelegate Methods
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    ELCTextFieldCell *textFieldCell = (ELCTextFieldCell*)textField.superview;
+    if (![textFieldCell isKindOfClass:ELCTextFieldCell.class]) {
+        return;
+    }
+    //It's a better method to get the indexPath like this, in case you are rearranging / removing / adding rows,
+    //the set indexPath wouldn't change
+    NSIndexPath *indexPath = [self.formTable indexPathForCell:textFieldCell];
+	if(indexPath != nil && indexPath.row < [labels count]-1) {
+		NSIndexPath *path = [NSIndexPath indexPathForRow:indexPath.row+1 inSection:indexPath.section];
+		[[(ELCTextFieldCell*)[self.formTable cellForRowAtIndexPath:path] rightTextField] becomeFirstResponder];
+		[self.formTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
+	}
+	else {
+		[[(ELCTextFieldCell*)[self.formTable cellForRowAtIndexPath:indexPath] rightTextField] resignFirstResponder];
+	}
+}
+
+- (void)textFieldCell:(ELCTextFieldCell *)inCell updateTextLabelAtIndexPath:(NSIndexPath *)indexPath string:(NSString *)string {
+    
+	NSLog(@"See input: %@ from section: %d row: %d, should update models appropriately", string, indexPath.section, indexPath.row);
+}
 
 @end
