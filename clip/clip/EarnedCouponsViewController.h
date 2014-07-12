@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EarnedCouponsViewController : UIViewController
+@interface EarnedCouponsViewController : UITableViewController
 
 @end

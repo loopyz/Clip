@@ -101,9 +101,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
-    //setup pull to refresh
+//    UIEdgeInsets inset = UIEdgeInsetsMake(60, 0, 0, 0);
+//    self.tableView.contentInset = inset;
+//    
+//    // Do any additional setup after loading the view.
+//    
+//    //setup pull to refresh
 //    self.myPTR = [[PullToRefresh alloc] initWithNumberOfDots:5];
 //    self.myPTR.delegate = self;
 //    [self.view addSubview:self.myPTR];
