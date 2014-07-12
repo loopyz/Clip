@@ -221,21 +221,21 @@
     [numScore setTextColor:[UIColor colorWithRed:68/255.0f green:203/255.0f blue:154/255.0f alpha:1.0f]];
     [numScore setBackgroundColor:[UIColor clearColor]];
     numScore.textAlignment = NSTextAlignmentCenter;
-    [numScore setFont:[UIFont fontWithName:@"Avenir-Light" size:22]];
+    [numScore setFont:[UIFont fontWithName:@"Avenir-Book" size:22]];
     numScore.text = @"123";
     
     UILabel *numoffers = [[UILabel alloc] initWithFrame:CGRectMake(190, 50, 25, 50)];
     [numoffers setTextColor:[UIColor colorWithRed:105/255.0f green:32/255.0f blue:213/255.0f alpha:1.0f]];
     [numoffers setBackgroundColor:[UIColor clearColor]];
     numoffers.textAlignment = NSTextAlignmentCenter;
-    [numoffers setFont:[UIFont fontWithName:@"Avenir-Light" size:22]];
+    [numoffers setFont:[UIFont fontWithName:@"Avenir-Book" size:22]];
     numoffers.text = @"8";
     
     UILabel *numPending = [[UILabel alloc] initWithFrame:CGRectMake(262, 50, 32, 50)];
     [numPending setTextColor:[UIColor colorWithRed:206/255.0f green:34/255.0f blue:155/255.0f alpha:1.0f]];
     [numPending setBackgroundColor:[UIColor clearColor]];
     numPending.textAlignment = NSTextAlignmentCenter;
-    [numPending setFont:[UIFont fontWithName:@"Avenir-Light" size:22]];
+    [numPending setFont:[UIFont fontWithName:@"Avenir-Book" size:22]];
     numPending.text = @"2";
 
     [view addSubview:score];

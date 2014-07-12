@@ -10,7 +10,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewsFeedViewController : UIViewController<UIScrollViewDelegate>
+@interface NewsFeedViewController : UITableViewController<UIScrollViewDelegate>
 
 @property (nonatomic, strong) KSVideoPlayerView *player;
 @end

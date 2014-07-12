@@ -135,7 +135,7 @@
 {
     switch (self.selectedIndex) {
         case 0: {
-            UIColor * color = [UIColor colorWithRed:149/255.0f green:25/255.0f blue:79/255.0f alpha:1.0f];
+            UIColor * color = [UIColor colorWithRed:155/255.0f green:31/255.0f blue:73/255.0f alpha:1.0f];
             self.view.tintColor = color;
             break;
         }
