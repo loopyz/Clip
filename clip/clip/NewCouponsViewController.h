@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewCouponsViewController : UIViewController
+@interface NewCouponsViewController : UITableViewController
+{
+    UITableView *newCouponsTableView;
+}
+
+@property (nonatomic, strong) UIScrollView *myScroll;
 
 @end
