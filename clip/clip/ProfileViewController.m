@@ -200,7 +200,9 @@
 
     // Do any additional setup after loading the view.
     PFQuery *query = [PFQuery queryWithClassName:@"Video"];
-    [query whereKey:@"creator" equalTo:[PFUser currentUser]];
+    if ([PFUser currentUser]) {
+        [query whereKey:@"creator" equalTo:[PFUser currentUser]];
+    }
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (objects) {
             self.videos = objects;

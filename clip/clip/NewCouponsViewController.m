@@ -136,7 +136,9 @@
     
     
     PFQuery *statesquery = [PFQuery queryWithClassName:@"Campaign"];
-    [statesquery whereKey:@"state" equalTo:[[PFUser currentUser] objectForKey:@"state"]];
+    if ([PFUser currentUser]) {
+        [statesquery whereKey:@"state" equalTo:[[PFUser currentUser] objectForKey:@"state"]];
+    }
     
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[agesquery, statesquery]];
     [query whereKeyDoesNotExist:@"users"];
