@@ -23,6 +23,7 @@
     
     
     [PFFacebookUtils initializeFacebook];
+    //[PFUser logOut];
     
     // Create a LoginUIViewController instance where we will put the login button
     LoginViewController *loginViewController = [[LoginViewController alloc] init];

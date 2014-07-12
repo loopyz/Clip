@@ -10,6 +10,7 @@
 
 #import "LoginViewController.h"
 #import "HomeViewController.h"
+#import "RegisterInformationViewController.h"
 
 @interface LoginViewController ()
 
@@ -62,10 +63,12 @@
             } else {
                 NSLog(@"Some error occured during FB Login Process.");
             }
-        } else if (user.isNew) {
+        } else if (user.isNew || ![user objectForKey:@"registered"]) {
             NSLog(@"User just joined the app. Successful login.");
-            HomeViewController *svc = [[HomeViewController alloc] init];
+            RegisterInformationViewController *svc = [[RegisterInformationViewController alloc] init];
             [self.navigationController pushViewController:svc animated:YES];
+//            HomeViewController *svc = [[HomeViewController alloc] init];
+//            [self.navigationController pushViewController:svc animated:YES];
         } else {
             NSLog(@"Successful login.");
             HomeViewController *svc = [[HomeViewController alloc] init];
