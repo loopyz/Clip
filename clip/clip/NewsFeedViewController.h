@@ -16,5 +16,6 @@
 
 @property (nonatomic, strong) KSVideoPlayerView *player;
 @property (nonatomic, strong) PullToRefresh *ptr;
+@property (nonatomic, strong) NSMutableArray *videos;
 
 @end

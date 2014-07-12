@@ -29,6 +29,7 @@
         // Custom initialization
         // [self addProfile];
         self.fbProfilePic = [[FBProfilePictureView alloc] init];
+        self.campaigns = [[NSMutableArray alloc] init];
         
         self.view.backgroundColor = [UIColor colorWithRed:251/255.0f green:251/255.0f blue:251/255.0f alpha:1.0f];
     }
@@ -68,6 +69,9 @@
                         NSLog(@"hey video object no saving");
                     } else {
                         NSLog(@"worked well");
+
+                        [self.videoCampaign addObject:[[PFUser currentUser] objectId] forKey:@"users"];
+                        [self.videoCampaign saveInBackground];
                         //[self launchVideo];
                     }
                 }];
@@ -78,6 +82,8 @@
 
 - (void)videoMergeCompleteHandler:(NSNotification*)notification {
     NSLog(@"video merged successfully");
+    [self.campaigns removeObjectAtIndex:self.videoId];
+    [self.tableView reloadData];
     [self uploadVideo];
 }
 - (IBAction)makeVideo
@@ -122,7 +128,27 @@
 //    self.tableView.contentInset = inset;
 //    
     // Do any additional setup after loading the view.
+    PFQuery *agesquery = [PFQuery queryWithClassName:@"Campaign"];
     
+    int age = [[[PFUser currentUser] objectForKey:@"age"] intValue];
+    [agesquery whereKey:@"youngestAge" lessThanOrEqualTo:@(age)];
+    [agesquery whereKey:@"oldestAge" greaterThanOrEqualTo:@(age)];
+    
+    
+    PFQuery *statesquery = [PFQuery queryWithClassName:@"Campaign"];
+    [statesquery whereKey:@"state" equalTo:[[PFUser currentUser] objectForKey:@"state"]];
+    
+    PFQuery *query = [PFQuery orQueryWithSubqueries:@[agesquery, statesquery]];
+    [query whereKeyDoesNotExist:@"users"];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (objects) {
+            self.campaigns = [[NSMutableArray alloc] initWithArray:objects];
+            [self.tableView reloadData];
+        } else {
+            NSLog(@"something wrong in finding campaigns for new coupons");
+        }
+    }];
     //setup pull to refresh
     self.myPTR = [[PullToRefresh alloc] initWithNumberOfDots:5];
     self.myPTR.delegate = self;
@@ -155,7 +181,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 25;
+    return [self.campaigns count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -266,6 +292,7 @@
 //for each cell in table
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    PFObject *campaign = [self.campaigns objectAtIndex:indexPath.row];
     static NSString *MyIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     if (cell == nil) {
@@ -281,7 +308,7 @@
     [name setBackgroundColor:[UIColor clearColor]];
     [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
     
-    name.text = @"Free Breadsticks";
+    name.text = [campaign objectForKey:@"title"];//@"Free Breadsticks";
     [cell addSubview:name];
     
     //setup description
@@ -291,7 +318,7 @@
     [desc setBackgroundColor:[UIColor clearColor]];
     [desc setFont:[UIFont fontWithName:@"Avenir" size:10]];
     
-    desc.text = @"Do you love free breadsticks? Do you like taking funny videos? Send us a funny video with a pizza joke and we'll give you some free breadsticks in return!";
+    desc.text = [campaign objectForKey:@"description"];//@"Do you love free breadsticks? Do you like taking funny videos? Send us a funny video with a pizza joke and we'll give you some free breadsticks in return!";
     desc.lineBreakMode = NSLineBreakByWordWrapping;
     desc.numberOfLines = 0;
     [cell addSubview:desc];
@@ -307,7 +334,8 @@
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self makeVideo];
-    self.videoCampaign = @"This one";
+    self.videoCampaign = [self.campaigns objectAtIndex:indexPath.row];
+    self.videoId = indexPath.row;
     // blah
 }
 

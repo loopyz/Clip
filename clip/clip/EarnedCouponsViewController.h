@@ -15,5 +15,6 @@
 }
 
 @property (nonatomic, strong) PullToRefresh *myPTR;
+@property (nonatomic, strong) NSMutableArray *coupons;
 
 @end

@@ -8,6 +8,8 @@
 
 #import "EarnedCouponsViewController.h"
 
+#import <Parse/Parse.h>
+
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
 #define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
 
@@ -22,6 +24,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.coupons = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -32,6 +35,22 @@
     UIEdgeInsets inset = UIEdgeInsetsMake(0, 0, 50, 0);
     self.tableView.contentInset = inset;
     
+    
+    // do querying
+    PFQuery *query = [PFQuery queryWithClassName:@"Video"];
+    [query whereKey:@"creator" equalTo:[PFUser currentUser]];
+    [query whereKeyExists:@"campaign"];
+    [query whereKeyDoesNotExist:@"used"];
+    [query includeKey:@"campaign"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (objects && !error) {
+            self.coupons = [[NSMutableArray alloc] initWithArray:objects];
+            [self.tableView reloadData];
+        } else {
+            NSLog(@"some error at querying for won coupons");
+        }
+        
+    }];
     self.myPTR = [[PullToRefresh alloc] initWithNumberOfDots:5];
     self.myPTR.delegate = self;
     [self.view addSubview:self.myPTR];
@@ -73,7 +92,7 @@
 #pragma mark - UITableView
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 15; //number of alphabet letters + recent
+    return [self.coupons count]; //actual number of coupons
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -118,6 +137,7 @@
             [name setBackgroundColor:[UIColor clearColor]];
             [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
             
+            PFObject *coupon = self.coupons[indexPath.row];
             name.text = @"Free Breadsticks";
             [cell addSubview:name];
             
@@ -250,6 +270,11 @@
     // Perform the real delete action here. Note: you may need to check editing style
     //   if you do not perform delete only.
     // [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    PFObject *coupon = self.coupons[indexPath.row];
+    [coupon setObject:@true forKey:@"used"];
+    [coupon saveInBackground];
+    [self.coupons removeObjectAtIndex:indexPath.row];
+    [self.tableView reloadData];
     NSLog(@"Deleted row.");
 }
 
