@@ -8,6 +8,9 @@
 
 #import "EarnedCouponsViewController.h"
 
+#define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
+
 @interface EarnedCouponsViewController ()
 
 @end
@@ -92,17 +95,45 @@
     {
         if (!indexPath.row)
         {
-            // first row
-            cell.textLabel.text = @"Expandable"; // only top row showing
-//            
-//            if ([expandedSections containsIndex:indexPath.section])
-//            {
-//                cell.backgroundColor = [UIColor redColor];
-//            }
-//            else
-//            {
-//                cell.backgroundColor = [UIColor clearColor];
-//            }
+            //setup name label
+            UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
+            UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(98, 5, 300, 50)];
+            [name setTextColor:nameColor];
+            [name setBackgroundColor:[UIColor clearColor]];
+            [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
+            
+            name.text = @"Free Breadsticks";
+            [cell addSubview:name];
+            
+            //setup expiration
+            UIColor *expColor = [UIColor colorWithRed:249/255.0f green:24/255.0f blue:95/255.0f alpha:1.0f];
+            UILabel *exp = [[UILabel alloc] initWithFrame:CGRectMake(98, 30, SCREEN_WIDTH - 120, 50)];
+            [exp setTextColor:expColor];
+            [exp setBackgroundColor:[UIColor clearColor]];
+            [exp setFont:[UIFont fontWithName:@"Avenir" size:13]];
+            
+            exp.text = @"EXP: 7/17/14";
+            exp.lineBreakMode = NSLineBreakByWordWrapping;
+            exp.numberOfLines = 0;
+            [cell addSubview:exp];
+            
+            //setup description
+            UIColor *descColor = [UIColor colorWithRed:136/255.0f green:136/255.0f blue:136/255.0f alpha:1.0f];
+            UILabel *desc = [[UILabel alloc] initWithFrame:CGRectMake(98, 50, SCREEN_WIDTH - 120, 50)];
+            [desc setTextColor:descColor];
+            [desc setBackgroundColor:[UIColor clearColor]];
+            [desc setFont:[UIFont fontWithName:@"Avenir" size:11]];
+            
+            desc.text = @"Offer good at any Pizza Hut in the US.";
+            desc.lineBreakMode = NSLineBreakByWordWrapping;
+            desc.numberOfLines = 0;
+            [cell addSubview:desc];
+            
+
+            //setup logo
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 58.5, 60)];
+            imgView.image = [UIImage imageNamed:@"pizzahut.png"];
+            [cell addSubview:imgView];
         }
         else
         {

@@ -106,6 +106,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIEdgeInsets inset = UIEdgeInsetsMake(0, 0, 50, 0);
+    self.tableView.contentInset = inset;
 //    UIEdgeInsets inset = UIEdgeInsetsMake(60, 0, 0, 0);
 //    self.tableView.contentInset = inset;
 //    
@@ -260,8 +262,34 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     }
     
-    cell.textLabel.text = @"meowwww";
     cell.backgroundColor = [UIColor clearColor];
+    
+    //setup name label
+    UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
+    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(98, 5, 300, 50)];
+    [name setTextColor:nameColor];
+    [name setBackgroundColor:[UIColor clearColor]];
+    [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
+    
+    name.text = @"Free Breadsticks";
+    [cell addSubview:name];
+    
+    //setup description
+    UIColor *descColor = [UIColor colorWithRed:136/255.0f green:136/255.0f blue:136/255.0f alpha:1.0f];
+    UILabel *desc = [[UILabel alloc] initWithFrame:CGRectMake(98, 43, SCREEN_WIDTH - 120, 50)];
+    [desc setTextColor:descColor];
+    [desc setBackgroundColor:[UIColor clearColor]];
+    [desc setFont:[UIFont fontWithName:@"Avenir" size:10]];
+    
+    desc.text = @"Do you love free breadsticks? Do you like taking funny videos? Send us a funny video with a pizza joke and we'll give you some free breadsticks in return!";
+    desc.lineBreakMode = NSLineBreakByWordWrapping;
+    desc.numberOfLines = 0;
+    [cell addSubview:desc];
+    
+    //setup logo
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 58.5, 60)];
+    imgView.image = [UIImage imageNamed:@"pizzahut.png"];
+    [cell addSubview:imgView];
     
     return cell;
 }
