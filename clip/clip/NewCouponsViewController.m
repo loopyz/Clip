@@ -82,8 +82,9 @@
 
 - (void)videoMergeCompleteHandler:(NSNotification*)notification {
     NSLog(@"video merged successfully");
-    [self.campaigns removeObjectAtIndex:self.videoId];
-    [self.tableView reloadData];
+    //[self.campaigns removeObjectAtIndex:self.videoId];
+    //[self.tableView reloadData];
+    [self refreshView];
     [self uploadVideo];
 }
 - (IBAction)makeVideo
@@ -128,6 +129,14 @@
 //    self.tableView.contentInset = inset;
 //    
     // Do any additional setup after loading the view.
+    [self refreshView];
+    //setup pull to refresh
+    self.myPTR = [[PullToRefresh alloc] initWithNumberOfDots:5];
+    self.myPTR.delegate = self;
+    [self.view addSubview:self.myPTR];
+}
+
+- (void) refreshView {
     PFQuery *agesquery = [PFQuery queryWithClassName:@"Campaign"];
     
     int age = [[[PFUser currentUser] objectForKey:@"age"] intValue];
@@ -142,7 +151,7 @@
     
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[agesquery, statesquery]];
     [query whereKeyDoesNotExist:@"users"];
-
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (objects) {
             self.campaigns = [[NSMutableArray alloc] initWithArray:objects];
@@ -151,12 +160,8 @@
             NSLog(@"something wrong in finding campaigns for new coupons");
         }
     }];
-    //setup pull to refresh
-    self.myPTR = [[PullToRefresh alloc] initWithNumberOfDots:5];
-    self.myPTR.delegate = self;
-    [self.view addSubview:self.myPTR];
+    [self.tableView reloadData];
 }
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView  {
     [self.myPTR viewDidScroll:scrollView];
 }
@@ -299,42 +304,46 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+        cell.backgroundColor = [UIColor clearColor];
+        
+        //setup name label
+        UILabel *name = (UILabel*)[cell.contentView viewWithTag:1];
+        if (!name) {
+            UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
+            name = [[UILabel alloc] initWithFrame:CGRectMake(98, 5, 300, 50)];
+            [name setTextColor:nameColor];
+            [name setBackgroundColor:[UIColor clearColor]];
+            [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
+            name.tag = 1;
+            [cell addSubview:name];
+        }
+        name.text = [campaign objectForKey:@"title"];//@"Free Breadsticks";
+        
+        //setup description
+        UIColor *descColor = [UIColor colorWithRed:136/255.0f green:136/255.0f blue:136/255.0f alpha:1.0f];
+        UILabel *desc = (UILabel*)[cell.contentView viewWithTag:2];
+        if (!desc) {
+            desc = [[UILabel alloc] initWithFrame:CGRectMake(98, 43, SCREEN_WIDTH - 120, 50)];
+            [desc setTextColor:descColor];
+            [desc setBackgroundColor:[UIColor clearColor]];
+            [desc setFont:[UIFont fontWithName:@"Avenir" size:10]];
+            desc.lineBreakMode = NSLineBreakByWordWrapping;
+            desc.numberOfLines = 0;
+            desc.tag = 2;
+            [cell addSubview:desc];
+        }
+        desc.text = [campaign objectForKey:@"description"];//@"Do you love free breadsticks? Do you like taking funny videos? Send us a funny video with a pizza joke and we'll give you some free breadsticks in return!";
+        
+        //setup logo
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 58.5, 60)];
+        imgView.image = [UIImage imageNamed:@"pizzahut.png"];
+        [cell addSubview:imgView];
     }
     
-    cell.backgroundColor = [UIColor clearColor];
-    
-    //setup name label
     UILabel *name = (UILabel*)[cell.contentView viewWithTag:1];
-    if (!name) {
-        UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
-        name = [[UILabel alloc] initWithFrame:CGRectMake(98, 5, 300, 50)];
-        [name setTextColor:nameColor];
-        [name setBackgroundColor:[UIColor clearColor]];
-        [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
-        name.tag = 1;
-        [cell addSubview:name];
-    }
-    name.text = [campaign objectForKey:@"title"];//@"Free Breadsticks";
-    
-    //setup description
-    UIColor *descColor = [UIColor colorWithRed:136/255.0f green:136/255.0f blue:136/255.0f alpha:1.0f];
+    name.text = [campaign objectForKey:@"title"];
     UILabel *desc = (UILabel*)[cell.contentView viewWithTag:2];
-    if (!desc) {
-        desc = [[UILabel alloc] initWithFrame:CGRectMake(98, 43, SCREEN_WIDTH - 120, 50)];
-        [desc setTextColor:descColor];
-        [desc setBackgroundColor:[UIColor clearColor]];
-        [desc setFont:[UIFont fontWithName:@"Avenir" size:10]];
-        desc.lineBreakMode = NSLineBreakByWordWrapping;
-        desc.numberOfLines = 0;
-        desc.tag = 2;
-        [cell addSubview:desc];
-    }
-    desc.text = [campaign objectForKey:@"description"];//@"Do you love free breadsticks? Do you like taking funny videos? Send us a funny video with a pizza joke and we'll give you some free breadsticks in return!";
-    
-    //setup logo
-    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 58.5, 60)];
-    imgView.image = [UIImage imageNamed:@"pizzahut.png"];
-    [cell addSubview:imgView];
+    desc.text = [campaign objectForKey:@"description"];
     
     return cell;
 }

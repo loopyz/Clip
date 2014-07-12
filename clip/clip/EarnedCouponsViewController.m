@@ -147,81 +147,91 @@
     NSString *CellIdentifier = [NSString stringWithFormat:@"%d_%d",indexPath.section,indexPath.row];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    PFObject *coupon = [self.coupons[indexPath.row] objectForKey:@"campaign"];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:CellIdentifier];
+        if ([self tableView:tableView canCollapseSection:indexPath.section])
+        {
+            if (!indexPath.row)
+            {
+                //setup name label
+                UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
+                UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(98, 5, 300, 50)];
+                [name setTextColor:nameColor];
+                [name setBackgroundColor:[UIColor clearColor]];
+                [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
+                
+                
+                name.text = [coupon objectForKey:@"title"];//@"Free Breadsticks";
+                [cell addSubview:name];
+                name.tag = 101;
+                //setup expiration
+                UIColor *expColor = [UIColor colorWithRed:249/255.0f green:24/255.0f blue:95/255.0f alpha:1.0f];
+                UILabel *exp = [[UILabel alloc] initWithFrame:CGRectMake(98, 30, SCREEN_WIDTH - 120, 50)];
+                [exp setTextColor:expColor];
+                [exp setBackgroundColor:[UIColor clearColor]];
+                [exp setFont:[UIFont fontWithName:@"Avenir" size:13]];
+                
+                exp.text = [NSString stringWithFormat:@"EXP: %@", [coupon objectForKey:@"expiration"]];//@"EXP: 7/17/14";
+                exp.tag = 102;
+                exp.lineBreakMode = NSLineBreakByWordWrapping;
+                exp.numberOfLines = 0;
+                [cell addSubview:exp];
+                
+                //setup description
+                UIColor *descColor = [UIColor colorWithRed:136/255.0f green:136/255.0f blue:136/255.0f alpha:1.0f];
+                UILabel *desc = [[UILabel alloc] initWithFrame:CGRectMake(98, 50, SCREEN_WIDTH - 120, 50)];
+                [desc setTextColor:descColor];
+                [desc setBackgroundColor:[UIColor clearColor]];
+                [desc setFont:[UIFont fontWithName:@"Avenir" size:11]];
+                
+                desc.text = [coupon objectForKey:@"description"];//@"Offer good at any Pizza Hut in the US.";
+                desc.tag = 103;
+                desc.lineBreakMode = NSLineBreakByWordWrapping;
+                desc.numberOfLines = 0;
+                [cell addSubview:desc];
+                
+                
+                //setup logo
+                UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 58.5, 60)];
+                imgView.image = [UIImage imageNamed:@"pizzahut.png"];
+                [cell addSubview:imgView];
+            }
+            else
+            {
+                // all other rows
+                cell.accessoryView = nil;
+                cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"qrbg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
+                cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"qrbg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
+                
+                UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 247.5)/2, 27, 247.5, 91.5)];
+                imgView.image = [UIImage imageNamed:@"qrborder.png"];
+                [cell addSubview:imgView];
+                
+                UIImageView *tempQR = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 242)/2, 32, 242, 83.5)];
+                tempQR.image = [UIImage imageNamed:@"tempqr.png"];
+                [cell addSubview:tempQR];
+                
+            }
+        }
+        else
+        {
+            cell.accessoryView = nil;
+            cell.textLabel.text = @"Normal Cell";
+            
+        }
+        
     }
     
     // Configure the cell...
     
-    if ([self tableView:tableView canCollapseSection:indexPath.section])
-    {
-        if (!indexPath.row)
-        {
-            //setup name label
-            UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
-            UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(98, 5, 300, 50)];
-            [name setTextColor:nameColor];
-            [name setBackgroundColor:[UIColor clearColor]];
-            [name setFont:[UIFont fontWithName:@"Avenir" size:24]];
-            
-            PFObject *coupon = [self.coupons[indexPath.row] objectForKey:@"campaign"];
-            name.text = [coupon objectForKey:@"title"];//@"Free Breadsticks";
-            [cell addSubview:name];
-            
-            //setup expiration
-            UIColor *expColor = [UIColor colorWithRed:249/255.0f green:24/255.0f blue:95/255.0f alpha:1.0f];
-            UILabel *exp = [[UILabel alloc] initWithFrame:CGRectMake(98, 30, SCREEN_WIDTH - 120, 50)];
-            [exp setTextColor:expColor];
-            [exp setBackgroundColor:[UIColor clearColor]];
-            [exp setFont:[UIFont fontWithName:@"Avenir" size:13]];
-
-            exp.text = [NSString stringWithFormat:@"EXP: %@", [coupon objectForKey:@"expiration"]];//@"EXP: 7/17/14";
-            exp.lineBreakMode = NSLineBreakByWordWrapping;
-            exp.numberOfLines = 0;
-            [cell addSubview:exp];
-            
-            //setup description
-            UIColor *descColor = [UIColor colorWithRed:136/255.0f green:136/255.0f blue:136/255.0f alpha:1.0f];
-            UILabel *desc = [[UILabel alloc] initWithFrame:CGRectMake(98, 50, SCREEN_WIDTH - 120, 50)];
-            [desc setTextColor:descColor];
-            [desc setBackgroundColor:[UIColor clearColor]];
-            [desc setFont:[UIFont fontWithName:@"Avenir" size:11]];
-            
-            desc.text = [coupon objectForKey:@"description"];//@"Offer good at any Pizza Hut in the US.";
-            desc.lineBreakMode = NSLineBreakByWordWrapping;
-            desc.numberOfLines = 0;
-            [cell addSubview:desc];
-            
-
-            //setup logo
-            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 58.5, 60)];
-            imgView.image = [UIImage imageNamed:@"pizzahut.png"];
-            [cell addSubview:imgView];
-        }
-        else
-        {
-            // all other rows
-            cell.accessoryView = nil;
-            cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"qrbg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
-            cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"qrbg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
-            
-            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 247.5)/2, 27, 247.5, 91.5)];
-            imgView.image = [UIImage imageNamed:@"qrborder.png"];
-            [cell addSubview:imgView];
-            
-            UIImageView *tempQR = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 242)/2, 32, 242, 83.5)];
-            tempQR.image = [UIImage imageNamed:@"tempqr.png"];
-            [cell addSubview:tempQR];
-        
-        }
-    }
-    else
-    {
-        cell.accessoryView = nil;
-        cell.textLabel.text = @"Normal Cell";
-        
-    }
+    UILabel *name = (UILabel *) [cell.contentView viewWithTag:101];
+    name.text = [coupon objectForKey:@"title"];
     
+    UILabel *exp = (UILabel *) [cell.contentView viewWithTag:102];
+    exp.text = [NSString stringWithFormat:@"EXP: %@", [coupon objectForKey:@"expiration"]];
+    UILabel *desc = (UILabel *) [cell.contentView viewWithTag:103];
+    desc.text = [coupon objectForKey:@"description"];
     
     return cell;
 }
