@@ -31,6 +31,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.videos = [[NSMutableArray alloc] init];
         [self setupScrollView];
         [self setupHeader];
         [self setupTable];
@@ -184,18 +185,14 @@
     [super viewDidLoad];
 
     // Do any additional setup after loading the view.
-//    PFQuery *query = [PFQuery queryWithClassName:@"Video"];
-//    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-//        if (object) {
-//            PFFile *videoFile = [object objectForKey:@"file"];
-//            NSURL *fileUrl = [NSURL URLWithString:videoFile.url];
-//            self.player = [[KSVideoPlayerView alloc] initWithFrame:CGRectMake(0, 0, 320, 280) contentURL:fileUrl];
-//            [self.view addSubview:self.player];
-//            [self.player play];
-//            //MPMoviePlayerViewController *movie = [[MPMoviePlayerViewController alloc] initWithContentURL:fileUrl];
-//            //[self presentMoviePlayerViewControllerAnimated:movie];
-//        }
-//    }];
+    PFQuery *query = [PFQuery queryWithClassName:@"Video"];
+    [query whereKey:@"creator" equalTo:[PFUser currentUser]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (objects) {
+            self.videos = objects;
+            [self.videosTable reloadData];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -210,9 +207,10 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    self.videosTable.frame = CGRectMake(0, 130, SCREEN_WIDTH, 4 * 335);
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 245 + (4 * 335));
-    return 4;
+    NSUInteger vcount = [self.videos count];
+    self.videosTable.frame = CGRectMake(0, 130, SCREEN_WIDTH, vcount * 335);
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, 245 + (vcount * 335));
+    return vcount;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -231,31 +229,28 @@
     }
     
     cell.backgroundColor = [UIColor clearColor];
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Video"];
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (object) {
-            PFFile *videoFile = [object objectForKey:@"file"];
-            NSURL *fileUrl = [NSURL URLWithString:videoFile.url];
-            self.player = [[KSVideoPlayerView alloc] initWithFrame:CGRectMake(0, 0, 320, 280) contentURL:fileUrl];
-            [cell addSubview:self.player];
-            [self.player play];
+    PFObject *object = self.videos[indexPath.row];
+    PFFile *videoFile = [object objectForKey:@"file"];
+    NSURL *fileUrl = [NSURL URLWithString:videoFile.url];
+    self.player = [[KSVideoPlayerView alloc] initWithFrame:CGRectMake(0, 0, 320, 280) contentURL:fileUrl];
+    [cell addSubview:self.player];
+    [self.player play];
             //MPMoviePlayerViewController *movie = [[MPMoviePlayerViewController alloc] initWithContentURL:fileUrl];
             //[self presentMoviePlayerViewControllerAnimated:movie];
             
-            UIImageView *locationIconView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 295, 11, 17)];
+    UIImageView *locationIconView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 295, 11, 17)];
             locationIconView.image = locationIcon;
             [cell addSubview:locationIconView];
             
-            // setup comment button
-            UIButton *commentButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [commentButton setTitle:@"Comment" forState:UIControlStateNormal];
+    // setup comment button
+    UIButton *commentButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [commentButton setTitle:@"Comment" forState:UIControlStateNormal];
             
-            commentButton.frame = CGRectMake(self.view.frame.size.width - 90, 295, 32.5, 22);
-            [commentButton addTarget:self action:@selector(commentTouched) forControlEvents:UIControlEventTouchUpInside];
-            [cell addSubview:commentButton];
-            [commentButton setImage:commentButtonIcon forState:UIControlStateNormal];
-            commentButton.contentMode = UIViewContentModeScaleToFill;
+    commentButton.frame = CGRectMake(self.view.frame.size.width - 90, 295, 32.5, 22);
+    [commentButton addTarget:self action:@selector(commentTouched) forControlEvents:UIControlEventTouchUpInside];
+    [cell addSubview:commentButton];
+    [commentButton setImage:commentButtonIcon forState:UIControlStateNormal];
+    commentButton.contentMode = UIViewContentModeScaleToFill;
             
             // setup heart button
             UIButton *heartButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -278,8 +273,6 @@
             desc.lineBreakMode = NSLineBreakByWordWrapping;
             desc.numberOfLines = 0;
             [cell addSubview:desc];
-        }
-    }];
     
     return cell;
 }

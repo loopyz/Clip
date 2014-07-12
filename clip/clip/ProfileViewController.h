@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UIView *profileSnippetView;
 @property (nonatomic, strong) FBProfilePictureView *fbProfilePic;
 @property (nonatomic, strong) NSString *userid;
+@property (nonatomic, strong) NSMutableArray *videos;
 
 
 @end
