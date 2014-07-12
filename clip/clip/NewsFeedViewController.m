@@ -47,7 +47,13 @@
     self.ptr = [[PullToRefresh alloc] initWithNumberOfDots:5];
     self.ptr.delegate = self;
     [self.view addSubview:self.ptr];
-    
+    PFQuery *query = [PFQuery queryWithClassName:@"Video"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (objects) {
+            self.videos = objects;
+            [self.tableView reloadData];
+        }
+    }];
     // Do any additional setup after loading the view.
 //    PFQuery *query = [PFQuery queryWithClassName:@"Video"];
 //    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -89,7 +95,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return [self.videos count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -108,14 +114,13 @@
     }
     cell.backgroundColor = [UIColor clearColor];
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Video"];
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (object) {
+    
+            PFObject *object = self.videos[indexPath.row];
             PFFile *videoFile = [object objectForKey:@"file"];
             NSURL *fileUrl = [NSURL URLWithString:videoFile.url];
             self.player = [[KSVideoPlayerView alloc] initWithFrame:CGRectMake(0, 0, 320, 280) contentURL:fileUrl];
             [cell addSubview:self.player];
-            [self.player play];
+            //[self.player play];
             //MPMoviePlayerViewController *movie = [[MPMoviePlayerViewController alloc] initWithContentURL:fileUrl];
             //[self presentMoviePlayerViewControllerAnimated:movie];
             
@@ -183,8 +188,6 @@
             desc.lineBreakMode = NSLineBreakByWordWrapping;
             desc.numberOfLines = 0;
             [cell addSubview:desc];
-        }
-    }];
     
     return cell;
 }
