@@ -93,7 +93,7 @@
     self.facebookButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.facebookButton setTitle:@"Show View" forState:UIControlStateNormal];
     
-    self.facebookButton.frame = CGRectMake((self.view.frame.size.width - 278)/2 + 3, 500, 278, 41);
+    self.facebookButton.frame = CGRectMake((self.view.frame.size.width - 278)/2 + 3, 495, 278, 41);
     [self.facebookButton addTarget:self action:@selector(normalLoginTouched) forControlEvents:UIControlEventTouchUpInside];
     
     UIImage *btnImage = [UIImage imageNamed:@"email-register.png"];
@@ -109,7 +109,7 @@
     self.facebookButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.facebookButton setTitle:@"Show View" forState:UIControlStateNormal];
     
-    self.facebookButton.frame = CGRectMake((self.view.frame.size.width - 278)/2 + 3, 450, 278, 41);
+    self.facebookButton.frame = CGRectMake((self.view.frame.size.width - 278)/2 + 3, 445, 278, 41);
     [self.facebookButton addTarget:self action:@selector(normalLoginTouched) forControlEvents:UIControlEventTouchUpInside];
     
     UIImage *btnImage = [UIImage imageNamed:@"email-login.png"];
@@ -125,7 +125,7 @@
     self.facebookButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.facebookButton setTitle:@"Show View" forState:UIControlStateNormal];
     
-    self.facebookButton.frame = CGRectMake((self.view.frame.size.width - 278)/2 + 3, 400, 278, 41);
+    self.facebookButton.frame = CGRectMake((self.view.frame.size.width - 278)/2 + 3, 395, 278, 41);
     [self.facebookButton addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
     
     UIImage *btnImage = [UIImage imageNamed:@"facebook-login.png"];
