@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Niveditha Jayasekar. All rights reserved.
 //
 
+#import <Parse/Parse.h>
+
 #import "LoginViewController.h"
 #import "HomeViewController.h"
 
@@ -28,15 +30,15 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    //[self.navigationController setNavigationBarHidden:YES];
+    [self.navigationController setNavigationBarHidden:YES];
     
     // check if user is cached and linked to Facebook and bypass login if so
-//    if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
-//        //[PFUser logOut];
-//        HomeViewController *svc = [[HomeViewController alloc] init];
-//        [self.navigationController pushViewController:svc animated:YES];
-//        return;
-//    }
+    if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
+        //[PFUser logOut];
+        HomeViewController *svc = [[HomeViewController alloc] init];
+    [self.navigationController pushViewController:svc animated:YES];
+        return;
+    }
     
     // otherwise do login
     [self addBackgroundImage];
@@ -51,25 +53,25 @@
 
 - (void)buttonTouched:(id)sender
 {
-//    NSArray *permissionsArray = @[@"user_about_me", @"user_friends"];
-//    // login PFUser using facebook
-//    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
-//        if (!user) {
-//            if (!error) {
-//                NSLog(@"User cancelled the FB Login Process.");
-//            } else {
-//                NSLog(@"Some error occured during FB Login Process.");
-//            }
-//        } else if (user.isNew) {
-//            NSLog(@"User just joined the app. Successful login.");
-//            HomeViewController *svc = [[HomeViewController alloc] init];
-//            [self.navigationController pushViewController:svc animated:YES];
-//        } else {
-//            NSLog(@"Successful login.");
-//            HomeViewController *svc = [[HomeViewController alloc] init];
-//            [self.navigationController pushViewController:svc animated:YES];
-//        }
-//    }];
+    NSArray *permissionsArray = @[@"user_about_me", @"user_friends"];
+    // login PFUser using facebook
+    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
+        if (!user) {
+            if (!error) {
+                NSLog(@"User cancelled the FB Login Process.");
+            } else {
+                NSLog(@"Some error occured during FB Login Process.");
+            }
+        } else if (user.isNew) {
+            NSLog(@"User just joined the app. Successful login.");
+            HomeViewController *svc = [[HomeViewController alloc] init];
+            [self.navigationController pushViewController:svc animated:YES];
+        } else {
+            NSLog(@"Successful login.");
+            HomeViewController *svc = [[HomeViewController alloc] init];
+            [self.navigationController pushViewController:svc animated:YES];
+        }
+    }];
     
     HomeViewController *svc = [[HomeViewController alloc] init];
     [self.navigationController pushViewController:svc animated:YES];

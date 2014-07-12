@@ -6,10 +6,9 @@
 //  Copyright (c) 2014 Niveditha Jayasekar. All rights reserved.
 //
 
-#import "AppDelegate.h"
-
 #import <Parse/Parse.h>
 
+#import "AppDelegate.h"
 #import "LoginViewController.h"
 
 @implementation AppDelegate
@@ -22,10 +21,8 @@
     [Parse setApplicationId:@"zJDkcisSASpMHkV9VCpEJFbkrO16eJv6g1i5UxjU"
                   clientKey:@"7BA6oAEIQeGAsrNhUXf6RQIDry4DaUnp3gxY3Yzb"];
     
-    // testing Parse
-    PFObject *testObject = [PFObject objectWithClassName:@"TestObject"];
-    testObject[@"foo"] = @"bar";
-    [testObject saveInBackground];
+    
+    [PFFacebookUtils initializeFacebook];
     
     // Create a LoginUIViewController instance where we will put the login button
     LoginViewController *loginViewController = [[LoginViewController alloc] init];
@@ -46,8 +43,7 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-//    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[PFFacebookUtils session]];
-    return YES;
+    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[PFFacebookUtils session]];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -70,14 +66,14 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-//    [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
+    [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
     
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-//    [[PFFacebookUtils session] close];
+    [[PFFacebookUtils session] close];
     
 }
 
