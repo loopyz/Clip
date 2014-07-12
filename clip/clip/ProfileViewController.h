@@ -12,7 +12,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ProfileViewController : UIViewController<BEMPullToRefreshDelegate>
+@interface ProfileViewController : UIViewController<BEMPullToRefreshDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) KSVideoPlayerView *player;
 @property (nonatomic, strong) UIScrollView *scrollView;
