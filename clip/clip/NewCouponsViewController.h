@@ -6,12 +6,15 @@
 //  Copyright (c) 2014 Niveditha Jayasekar. All rights reserved.
 //
 
+#import "AppendableVideoMaker.h"
+
 #import <UIKit/UIKit.h>
 #import "PullToRefresh.h"
 
 @interface NewCouponsViewController : UITableViewController<BEMPullToRefreshDelegate>
 {
     UITableView *newCouponsTableView;
+    AppendableVideoMaker *videoMaker;
 }
 
 @property (nonatomic, strong) UIScrollView *myScroll;

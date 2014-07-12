@@ -8,6 +8,11 @@
 
 #import "NewCouponsViewController.h"
 
+#import "PullToRefresh.h"
+#import "AppendableVideoMaker.h"
+
+#import <Parse/Parse.h>
+
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
 #define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
 
@@ -38,6 +43,60 @@
     imgView.image = [UIImage imageNamed:@"profile.png"];
     [self.myScroll addSubview:imgView];
 }
+
+- (void) uploadVideo
+{
+    if (videoMaker && [videoMaker videoIsReady])
+    {
+        NSURL *videoURL = [videoMaker getVideoURL];
+        // do something with the video ...
+        NSData *fileData = [NSData dataWithContentsOfURL:[videoMaker getVideoURL]];
+        NSString *fileName = @"video.mov";
+        NSString *fileType = @"movie";
+        PFFile *file = [PFFile fileWithName:fileName data:fileData];
+        [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                NSLog(@"hey file no saving");
+            } else {
+                PFObject *video = [PFObject objectWithClassName:@"Video"];
+                [video setObject:file forKey:@"file"];
+                [video setObject:fileType forKey:@"fileType"];
+                [video setObject:[PFUser currentUser] forKey:@"creator"];
+                [video saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        NSLog(@"hey video object no saving");
+                    } else {
+                        NSLog(@"worked well");
+                        //[self launchVideo];
+                    }
+                }];
+            }
+        }];
+    }
+}
+
+- (void)videoMergeCompleteHandler:(NSNotification*)notification {
+    NSLog(@"video merged successfully");
+    [self uploadVideo];
+}
+- (IBAction)makeVideo
+{
+    NSLog(@"making video");
+    videoMaker = [[AppendableVideoMaker alloc] init];
+    if ([videoMaker deviceCanRecordVideos])
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(videoMergeCompleteHandler:)
+                                                     name:@"AppendableVideoMaker_VideoMergeComplete"
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(videoMergeFailedHandler:)
+                                                     name:@"AppendableVideoMaker_VideoMergeFailed"
+                                                   object:nil];
+        [self presentViewController:videoMaker animated:YES completion:^{}];
+    }
+}
+
 
 - (void)viewDidLoad
 {
@@ -183,6 +242,7 @@
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self makeVideo];
     // blah
 }
 
