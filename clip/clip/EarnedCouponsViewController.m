@@ -29,7 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIEdgeInsets inset = UIEdgeInsetsMake(60, 0, 50, 0);
+    UIEdgeInsets inset = UIEdgeInsetsMake(0, 0, 50, 0);
     self.tableView.contentInset = inset;
     // Do any additional setup after loading the view.
     if (!expandedSections)
