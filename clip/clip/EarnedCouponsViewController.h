@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EarnedCouponsViewController : UITableViewController
+@interface EarnedCouponsViewController : UITableViewController {
+    NSMutableIndexSet *expandedSections;
+}
 
 @end

@@ -38,6 +38,10 @@
     return self;
 }
 
+- (void) launchAddGameView
+{
+    // do nothing
+}
 - (void)initNavBar
 {
     [self.navigationController.navigationBar setTranslucent:NO];

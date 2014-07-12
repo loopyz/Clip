@@ -29,6 +29,10 @@
     UIEdgeInsets inset = UIEdgeInsetsMake(60, 0, 50, 0);
     self.tableView.contentInset = inset;
     // Do any additional setup after loading the view.
+    if (!expandedSections)
+    {
+        expandedSections = [[NSMutableIndexSet alloc] init];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -37,14 +41,33 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Expanding
+
+- (BOOL)tableView:(UITableView *)tableView canCollapseSection:(NSInteger)section
+{
+    return YES;
+    //if (section>0) return YES;
+    
+    //return NO;
+}
+
 #pragma mark - UITableView
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1; //number of alphabet letters + recent
+    return 15; //number of alphabet letters + recent
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 25;
+    if ([self tableView:tableView canCollapseSection:section])
+    {
+        if ([expandedSections containsIndex:section])
+        {
+            return 2; // return rows when expanded
+        }
+        
+        return 1; // only top row showing
+    }
+    return 1;//25;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -62,15 +85,101 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.text = @"meowwww";
-    cell.backgroundColor = [UIColor clearColor];
+    // Configure the cell...
+    
+    if ([self tableView:tableView canCollapseSection:indexPath.section])
+    {
+        if (!indexPath.row)
+        {
+            // first row
+            cell.textLabel.text = @"Expandable"; // only top row showing
+//            
+//            if ([expandedSections containsIndex:indexPath.section])
+//            {
+//                cell.backgroundColor = [UIColor redColor];
+//            }
+//            else
+//            {
+//                cell.backgroundColor = [UIColor clearColor];
+//            }
+        }
+        else
+        {
+            // all other rows
+            cell.textLabel.text = @"Some Detail";
+            cell.accessoryView = nil;
+            cell.backgroundColor = [UIColor redColor];
+        }
+    }
+    else
+    {
+        cell.accessoryView = nil;
+        cell.textLabel.text = @"Normal Cell";
+        
+    }
+    
     
     return cell;
 }
 
--(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // blah
+    if ([self tableView:tableView canCollapseSection:indexPath.section])
+    {
+        if (!indexPath.row)
+        {
+            [self.tableView beginUpdates];
+            
+            // only first row toggles exapand/collapse
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            
+            NSInteger section = indexPath.section;
+            BOOL currentlyExpanded = [expandedSections containsIndex:section];
+            NSInteger rows;
+            
+            NSMutableArray *tmpArray = [NSMutableArray array];
+            
+            if (currentlyExpanded)
+            {
+                rows = [self tableView:tableView numberOfRowsInSection:section];
+                [expandedSections removeIndex:section];
+                
+            }
+            else
+            {
+                [expandedSections addIndex:section];
+                rows = [self tableView:tableView numberOfRowsInSection:section];
+            }
+            
+            for (int i=1; i<rows; i++)
+            {
+                NSIndexPath *tmpIndexPath = [NSIndexPath indexPathForRow:i inSection:section];
+                [tmpArray addObject:tmpIndexPath];
+            }
+            
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            
+            if (currentlyExpanded)
+            {
+                [tableView deleteRowsAtIndexPaths:tmpArray
+                                 withRowAnimation:UITableViewRowAnimationTop];
+                
+//                cell.backgroundColor = [UIColor clearColor];
+                
+            }
+            else
+            {
+                [tableView insertRowsAtIndexPaths:tmpArray
+                                 withRowAnimation:UITableViewRowAnimationTop];
+//                cell.backgroundColor = [UIColor redColor];
+                
+            }
+            
+            [self.tableView endUpdates];
+        }
+    }
 }
 
 
