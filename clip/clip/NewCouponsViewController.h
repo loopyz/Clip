@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PullToRefresh.h"
 
-@interface NewCouponsViewController : UITableViewController
+@interface NewCouponsViewController : UITableViewController<BEMPullToRefreshDelegate>
 {
     UITableView *newCouponsTableView;
 }
 
 @property (nonatomic, strong) UIScrollView *myScroll;
-
+@property (nonatomic, strong) PullToRefresh *myPTR;
 @end

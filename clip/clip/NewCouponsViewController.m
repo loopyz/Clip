@@ -7,12 +7,11 @@
 //
 
 #import "NewCouponsViewController.h"
-#import "PullToRefresh.h"
 
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
 #define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
 
-@interface NewCouponsViewController ()
+@interface NewCouponsViewController () 
 
 @end
 
@@ -23,7 +22,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        [self addProfile];
+        // [self addProfile];
+        self.view.backgroundColor = [UIColor colorWithRed:251/255.0f green:251/255.0f blue:251/255.0f alpha:1.0f];
     }
     return self;
 }
@@ -43,6 +43,24 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //setup pull to refresh
+//    self.myPTR = [[PullToRefresh alloc] initWithNumberOfDots:5];
+//    self.myPTR.delegate = self;
+//    [self.view addSubview:self.myPTR];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView  {
+    [self.myPTR viewDidScroll:scrollView];
+}
+
+// SETUP WHAT REFRESH DOES HERE
+- (void)Refresh {
+    NSLog(@"test");
+    // Perform here the required actions to refresh the data (call a JSON API for example).
+    // Once the data has been updated, call the method isDoneRefreshing:
+    [self.myPTR isDoneRefreshing];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,26 +79,90 @@
     return 25;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 100;
+}
+
 //Header
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 115;
+}
+
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 115)];
+
     
-    //setup recent label
-    UIColor * color = [UIColor colorWithRed:41/255.0f green:178/255.0f blue:177/255.0f alpha:1.0f];
-    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 20)];
+    //setup name label
+    UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
+    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(98, 10, 300, 50)];
     
 
-    [name setTextColor:color];
+    [name setTextColor:nameColor];
     [name setBackgroundColor:[UIColor clearColor]];
-    [name setFont:[UIFont fontWithName:@"HelveticaNeue" size:22]];
+    [name setFont:[UIFont fontWithName:@"Avenir" size:22]];
     
     name.text = @"Lucy Guo";
-    [view addSubview:name];
     
-    //setup clear
-    [view setBackgroundColor:[UIColor whiteColor]];
+    //setup score, offers, and pending label
+    UIColor *tinyLabelColor = [UIColor colorWithRed:186/255.0f green:186/255.0f blue:186/255.0f alpha:1.0f];
+    
+    UILabel *score = [[UILabel alloc] initWithFrame:CGRectMake(98, 70, 150, 50)];
+    [score setTextColor:tinyLabelColor];
+    [score setBackgroundColor:[UIColor clearColor]];
+    [score setFont:[UIFont fontWithName:@"Avenir-Light" size:9]];
+    score.text = @"Clip Score";
+    
+    UILabel *offers = [[UILabel alloc] initWithFrame:CGRectMake(190, 70, 150, 50)];
+    [offers setTextColor:tinyLabelColor];
+    [offers setBackgroundColor:[UIColor clearColor]];
+    [offers setFont:[UIFont fontWithName:@"Avenir-Light" size:9]];
+    offers.text = @"Offers";
+    
+    UILabel *pending = [[UILabel alloc] initWithFrame:CGRectMake(262, 70, 150, 50)];
+    [pending setTextColor:tinyLabelColor];
+    [pending setBackgroundColor:[UIColor clearColor]];
+    [pending setFont:[UIFont fontWithName:@"Avenir-Light" size:9]];
+    pending.text = @"Pending";
+    
+    UILabel *numScore = [[UILabel alloc] initWithFrame:CGRectMake(98, 50, 40, 50)];
+    [numScore setTextColor:[UIColor colorWithRed:68/255.0f green:203/255.0f blue:154/255.0f alpha:1.0f]];
+    [numScore setBackgroundColor:[UIColor clearColor]];
+    numScore.textAlignment = NSTextAlignmentCenter;
+    [numScore setFont:[UIFont fontWithName:@"Avenir-Light" size:22]];
+    numScore.text = @"123";
+    
+    UILabel *numoffers = [[UILabel alloc] initWithFrame:CGRectMake(190, 50, 25, 50)];
+    [numoffers setTextColor:[UIColor colorWithRed:105/255.0f green:32/255.0f blue:213/255.0f alpha:1.0f]];
+    [numoffers setBackgroundColor:[UIColor clearColor]];
+    numoffers.textAlignment = NSTextAlignmentCenter;
+    [numoffers setFont:[UIFont fontWithName:@"Avenir-Light" size:22]];
+    numoffers.text = @"8";
+    
+    UILabel *numPending = [[UILabel alloc] initWithFrame:CGRectMake(262, 50, 32, 50)];
+    [numPending setTextColor:[UIColor colorWithRed:206/255.0f green:34/255.0f blue:155/255.0f alpha:1.0f]];
+    [numPending setBackgroundColor:[UIColor clearColor]];
+    numPending.textAlignment = NSTextAlignmentCenter;
+    [numPending setFont:[UIFont fontWithName:@"Avenir-Light" size:22]];
+    numPending.text = @"2";
+
+    
+    [view addSubview:name];
+    [view addSubview:score];
+    [view addSubview:offers];
+    [view addSubview:pending];
+    
+    [view addSubview:numScore];
+    [view addSubview:numoffers];
+    [view addSubview:numPending];
+    
+
+    
+    view.backgroundColor = [UIColor whiteColor];
     return view;
 }
 
