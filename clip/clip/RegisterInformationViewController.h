@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSArray *labels;
 @property (nonatomic, strong) NSArray *placeholders;
+@property (nonatomic, strong) NSMutableArray *fields;
 @property (nonatomic, strong) UITableView *formTable;
 
 @end
