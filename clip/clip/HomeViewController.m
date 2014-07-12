@@ -12,6 +12,7 @@
 #import "NewsFeedViewController.h"
 #import "ProfileViewController.h"
 
+
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
 #define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
 
@@ -37,10 +38,13 @@
     return self;
 }
 
+- (void) launchAddGameView
+{
+    // do nothing
+}
 - (void)initNavBar
 {
     [self.navigationController.navigationBar setTranslucent:NO];
-        
     UIBarButtonItem *lbb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"searchicon.png"]
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
