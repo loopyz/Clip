@@ -248,7 +248,7 @@
     NSURL *fileUrl = [NSURL URLWithString:videoFile.url];
     self.player = [[KSVideoPlayerView alloc] initWithFrame:CGRectMake(0, 0, 320, 280) contentURL:fileUrl];
     [cell addSubview:self.player];
-    [self.player play];
+    //[self.player play];
             //MPMoviePlayerViewController *movie = [[MPMoviePlayerViewController alloc] initWithContentURL:fileUrl];
             //[self presentMoviePlayerViewControllerAnimated:movie];
             
