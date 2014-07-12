@@ -32,6 +32,8 @@
         self.campaigns = [[NSMutableArray alloc] init];
         
         self.view.backgroundColor = [UIColor colorWithRed:251/255.0f green:251/255.0f blue:251/255.0f alpha:1.0f];
+        
+
     }
     return self;
 }
@@ -333,7 +335,19 @@
     
     //setup logo
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 58.5, 60)];
-    imgView.image = [UIImage imageNamed:@"pizzahut.png"];
+    //imgView.image = [UIImage imageNamed:@"pizzahut.png"];
+    if (indexPath.row % 4 == 0) {
+        imgView.image = [UIImage imageNamed:@"pizzahut.png"];
+    }
+    else if (indexPath.row % 4 == 1) {
+        imgView.image = [UIImage imageNamed:@"partyhat.png"];
+    }
+    else if (indexPath.row %4  == 2) {
+        imgView.image = [UIImage imageNamed:@"present.png"];
+    }
+    else if (indexPath.row %4 == 3) {
+        imgView.image = [UIImage imageNamed:@"popcorn.png"];
+    }
     [cell addSubview:imgView];
     
     return cell;
