@@ -96,15 +96,22 @@
             compAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio
                                                       preferredTrackID:kCMPersistentTrackID_Invalid];
             startTime = kCMTimeZero;
+            
         }
     }
     
     return self;
 }
 
-- (void)selfieCam:(id)self
+- (void)selfieCam:(id)sender
 {
-    
+    if(self.cameraDevice == UIImagePickerControllerCameraDeviceFront)
+    {
+        self.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+    }
+    else {
+        self.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+    }
 }
 
 #pragma mark - Custom Functions (Alphabetical order)
