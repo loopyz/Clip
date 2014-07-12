@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <script src="//www.parsecdn.com/js/parse-1.2.19.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <!--<script type="text/javascript">
+            Parse.initialize("zJDkcisSASpMHkV9VCpEJFbkrO16eJv6g1i5UxjU", "NYTIqi6mJbKUr3AbR8JpofmqRfYpWOrz6shdngud");
+        </script>-->
+        <script type="text/javascript" src="/static/campaign.js"></script>
+    </head>
+    <body>
+        Fill out this form to create a new campaign. <br><br>
+      
+        <form id="create_campaign_form" name="input" method="post">
+            Title: <input type="text" name="title" id="title"> <br> <br>
+            Description: <textarea type="text" name="description" id="description"></textarea> <br> <br>
+            Coupon Image: <input type="file" name="file" id="file"> <br> <br>
+            Start Date: <input type="text" name="start_date" id="start_date"> <br> <br>
+            End Date: <input type="text" name="end_date" id="end_date"> <br>
+            Coupon Expiration: <input type="text" name="expiration" id="expiration"> <br> <br> <br>
+
+            Targeted audience of your campaign. <br> <br>
+            Age Range: <input type="text" name="youngestAge" id="youngestAge"> to <input type="text" name="oldestAge" id="oldestAge"> <br> <br>
+            State: <input type="text" name="state" id="state"> <br> <br>
+            Interest: <input type="text" name="i1" id="i1"><br> <br>
+            <input type="submit" value="Submit">
+        </form>  
+  </body>
+</html>

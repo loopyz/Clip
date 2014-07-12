@@ -21,5 +21,20 @@ class HomePage(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('home.html')
         self.response.out.write(template.render(template_values))
 
+class CreateCampaignPage(webapp2.RequestHandler):
+    def get(self):
+        template_values = {}
+        template = JINJA_ENVIRONMENT.get_template('createCampaignPage.html')
+        self.response.out.write(template.render(template_values))
+
+class ViewCampaignPage(webapp2.RequestHandler):
+    def get(self):
+        query_string = self.request.get('id')
+        template_values = {'query_string':query_string}
+        template = JINJA_ENVIRONMENT.get_template('viewCampaignPage.html')
+        self.response.out.write(template.render(template_values))
+
 application = webapp2.WSGIApplication([('/', LoginPage),
-                                       ('/home', HomePage),], debug=True)
+                                       ('/home', HomePage),
+                                       ('/createCampaign', CreateCampaignPage),
+                                       ('/viewCampaign', ViewCampaignPage),], debug=True)
