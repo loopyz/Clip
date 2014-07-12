@@ -71,8 +71,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 100;
+{   if (indexPath.row % 2 == 0)
+        return 100;
+    else return 150;
 }
 
 //for each cell in table
@@ -106,9 +107,18 @@
         else
         {
             // all other rows
-            cell.textLabel.text = @"Some Detail";
             cell.accessoryView = nil;
-            cell.backgroundColor = [UIColor redColor];
+            cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"qrbg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
+            cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"qrbg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
+            
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 114.5)/2, 17, 114.5, 114.5)];
+            imgView.image = [UIImage imageNamed:@"qrborder.png"];
+            [cell addSubview:imgView];
+            
+            UIImageView *tempQR = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 100.5)/2, 22, 100.5, 100.5)];
+            tempQR.image = [UIImage imageNamed:@"tempqr.png"];
+            [cell addSubview:tempQR];
+        
         }
     }
     else
