@@ -20,14 +20,15 @@
                 var relation = user.relation("campaigns");
 
                 var Campaign = Parse.Object.extend("Campaign");
-                var list = '<ol>';
+                var list = '<ul style="list-style-type:none;">';
                 relation.query().descending('createdAt').find({
                     success: function(result) {
+                        document.getElementById('campaigncount').innerHTML = '' + result.length;
                         for (var i = 0; i < result.length; i++) {
                             var id = result[i].id;
-                            list += "<li><a href='/viewCampaign?id=" + id + "'</a>" + result[i].get('title') + '</li>';
+                            list += "<li><a class='clist' href='/viewCampaign?id=" + id + "'</a>" + result[i].get('title') + '</li>';
                         }
-                        list += '</ol>';
+                        list += '</ul>';
                         document.getElementById('results').innerHTML = list;
                     }
                 });
@@ -35,7 +36,7 @@
         </script>
   </head>
   <body>
-      The list of your campaigns. <br>
+      <h2> My Campaigns: (<span id="campaigncount"></span>)</h2>
       <a href="/createCampaign">Create a campaign</a>
       <div id="results"></div>
   </body>
