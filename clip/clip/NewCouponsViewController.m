@@ -7,11 +7,11 @@
 //
 
 #import "NewCouponsViewController.h"
-
 #import "PullToRefresh.h"
 #import "AppendableVideoMaker.h"
 
 #import <Parse/Parse.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
 #define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
@@ -28,20 +28,11 @@
     if (self) {
         // Custom initialization
         // [self addProfile];
+        self.fbProfilePic = [[FBProfilePictureView alloc] init];
+        
         self.view.backgroundColor = [UIColor colorWithRed:251/255.0f green:251/255.0f blue:251/255.0f alpha:1.0f];
     }
     return self;
-}
-
-
-
-- (void)addProfile
-{
-    //add background
-    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 60, 321, 115)];
-    
-    imgView.image = [UIImage imageNamed:@"profile.png"];
-    [self.myScroll addSubview:imgView];
 }
 
 - (void) uploadVideo
@@ -97,11 +88,24 @@
     }
 }
 
+- (void)addProfile
+{
+    
+    self.fbProfilePic.backgroundColor = [UIColor blackColor];
+    self.fbProfilePic.frame = CGRectMake(17, 23, 71, 71);
+    
+    //makes it into circle
+    float width = self.fbProfilePic.bounds.size.width;
+    self.fbProfilePic.layer.cornerRadius = width/2;
+    
+    [self.profileSnippetView addSubview:self.fbProfilePic];
+    
+}
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
 //    UIEdgeInsets inset = UIEdgeInsetsMake(60, 0, 0, 0);
 //    self.tableView.contentInset = inset;
 //    
@@ -156,20 +160,38 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 115)];
+    self.profileSnippetView = view;
 
-    
-    //setup name label
-    UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
-    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(98, 10, 300, 50)];
-    
+    FBRequest *request = [FBRequest requestForMe];
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if (!error) {
+            NSDictionary *userData = (NSDictionary *)result;
+            
+            if (![[PFUser currentUser] objectForKey:@"fbId"]) {
+                [[PFUser currentUser] setObject:userData[@"id"] forKey:@"fbId"];
+                [[PFUser currentUser] save];
+            }
+            self.userid = userData[@"id"];
+            NSString *username = userData[@"name"];
 
-    [name setTextColor:nameColor];
-    [name setBackgroundColor:[UIColor clearColor]];
-    [name setFont:[UIFont fontWithName:@"Avenir" size:22]];
+            self.fbProfilePic.profileID = self.userid;
+            //setup name label
+            UIColor *nameColor = [UIColor colorWithRed:91/255.0f green:91/255.0f blue:91/255.0f alpha:1.0f];
+            UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(98, 10, 300, 50)];
+            
+            
+            [name setTextColor:nameColor];
+            [name setBackgroundColor:[UIColor clearColor]];
+            [name setFont:[UIFont fontWithName:@"Avenir" size:22]];
+            
+            name.text = username; //@"Lucy Guo";
+            [self.profileSnippetView addSubview:name];
+            [self addProfile];
+        }
+    }];
     
-    name.text = @"Lucy Guo";
+    
     
     //setup score, offers, and pending label
     UIColor *tinyLabelColor = [UIColor colorWithRed:186/255.0f green:186/255.0f blue:186/255.0f alpha:1.0f];
@@ -213,8 +235,6 @@
     [numPending setFont:[UIFont fontWithName:@"Avenir-Light" size:22]];
     numPending.text = @"2";
 
-    
-    [view addSubview:name];
     [view addSubview:score];
     [view addSubview:offers];
     [view addSubview:pending];
@@ -226,6 +246,8 @@
 
     
     view.backgroundColor = [UIColor whiteColor];
+    
+    
     return view;
 }
 
