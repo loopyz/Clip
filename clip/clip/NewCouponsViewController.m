@@ -53,6 +53,7 @@
                 [video setObject:file forKey:@"file"];
                 [video setObject:fileType forKey:@"fileType"];
                 [video setObject:[PFUser currentUser] forKey:@"creator"];
+                [video setObject:self.videoCampaign forKey:@"campaign"];
                 [video saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (error) {
                         NSLog(@"hey video object no saving");
@@ -297,6 +298,7 @@
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self makeVideo];
+    self.videoCampaign = @"This one";
     // blah
 }
 

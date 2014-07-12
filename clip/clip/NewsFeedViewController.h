@@ -6,8 +6,11 @@
 //  Copyright (c) 2014 Niveditha Jayasekar. All rights reserved.
 //
 
+#import "KSVideoPlayerView.h"
+
 #import <UIKit/UIKit.h>
 
 @interface NewsFeedViewController : UIViewController<UIScrollViewDelegate>
 
+@property (nonatomic, strong) KSVideoPlayerView *player;
 @end

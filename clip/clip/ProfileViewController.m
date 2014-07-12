@@ -7,7 +7,10 @@
 //
 
 #import "ProfileViewController.h"
+#import "KSVideoPlayerView.h"
 
+#import <MediaPlayer/MediaPlayer.h>
+#import <Parse/Parse.h>
 @interface ProfileViewController ()
 
 @end
@@ -27,6 +30,18 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    PFQuery *query = [PFQuery queryWithClassName:@"Video"];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (object) {
+            PFFile *videoFile = [object objectForKey:@"file"];
+            NSURL *fileUrl = [NSURL URLWithString:videoFile.url];
+            self.player = [[KSVideoPlayerView alloc] initWithFrame:CGRectMake(0, 0, 320, 280) contentURL:fileUrl];
+            [self.view addSubview:self.player];
+            [self.player play];
+            //MPMoviePlayerViewController *movie = [[MPMoviePlayerViewController alloc] initWithContentURL:fileUrl];
+            //[self presentMoviePlayerViewControllerAnimated:movie];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning
