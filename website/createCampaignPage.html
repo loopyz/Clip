@@ -8,6 +8,31 @@
         <script type="text/javascript" src="/static/campaign.js"></script>
         <!-- CSS -->
         <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <style> 
+            @import url(http://fonts.googleapis.com/css?family=Raleway:400,700);
+            body {
+                background: #7f9b4e url(http://2.bp.blogspot.com/-p62W82y9NyU/UcxBG1_eVTI/AAAAAAAAAsk/Z-qd4BKU75A/s1600/13.jpg) no-repeat center top;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                background-size: cover;
+            }
+            .container > header h1,
+            .container > header h2 {
+                color: #fff;
+                text-shadow: 0 1px 1px rgba(0,0,0,0.7);
+            }
+
+            .control-label {
+                color: white;
+                font-size: 20px;
+            }
+
+            .form-control {
+                opacity: .8;
+                border-color: white;
+            }
+        </style>
     </head>
     <body>
 
@@ -17,7 +42,7 @@
             <fieldset>
 
             <!-- Form Name -->
-            <legend>Create New Campaign</legend>
+            <center><legend><label class="control-label" style="font-size:30px;">Create New Campaign</label></legend></center>
 
             <!-- Text input-->
             <div class="form-group">
@@ -75,7 +100,7 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="">Age Range</label>  
               <div class="col-md-2">
-              <input id="youngestAge" name="youngestAge" type="text" placeholder="" class="form-control input-sm"> to <input id="oldestAge" name="oldestAge" type="text" placeholder="" class="form-control input-sm">
+              <input id="youngestAge" name="youngestAge" type="text" placeholder="" class="form-control input-sm"> <label class="control-label">to</label> <input id="oldestAge" name="oldestAge" type="text" placeholder="" class="form-control input-sm">
                 
               </div>
             </div>
