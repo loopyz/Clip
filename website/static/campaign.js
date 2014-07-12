@@ -31,6 +31,18 @@ $(function () {
         });                
     });
 
+    // Need to be looged in. 
+    function checkLogin() {
+        console('Alexis');
+        var currentUser = Parse.User.current();
+        if (currentUser) {
+            console.log('hi');
+        } else {
+            console.log('bye');
+            window.open("/", "_self");
+        }
+    }
+
     var Campaign = Parse.Object.extend("Campaign");
 
     $('#create_campaign_form').on('submit', function(e) {
@@ -58,9 +70,15 @@ $(function () {
         campaign.set("state", state);
         campaign.set("i1", i1);
 
+        var owner = Parse.User.current();
+        var relation = owner.relation("campaigns");
+        campaign.set("owner", owner.username);
+
         campaign.save(null, {
             success: function(campaign) {
-                console.log('This campaign was saved')
+                console.log('This campaign was saved');
+                relation.add(campaign);
+                owner.save();
                 var id = campaign.id
                 window.open("/viewCampaign?id=" + id, "_self");
             }, error: function(campaign, error) {
@@ -68,6 +86,4 @@ $(function () {
             }
         });
     });
-
 });
-
