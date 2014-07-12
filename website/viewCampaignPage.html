@@ -2,6 +2,58 @@
     <head>
         <script src="//www.parsecdn.com/js/parse-1.2.19.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <style> 
+            @import url(http://fonts.googleapis.com/css?family=Raleway:400,700);
+            body {
+                background: #7f9b4e url(http://2.bp.blogspot.com/-p62W82y9NyU/UcxBG1_eVTI/AAAAAAAAAsk/Z-qd4BKU75A/s1600/13.jpg) no-repeat center top;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                background-size: cover;
+            }
+            .container > header h1,
+            .container > header h2 {
+                color: #fff;
+                text-shadow: 0 1px 1px rgba(0,0,0,0.7);
+            }
+        </style>
+        <style>
+            .header {
+                text-align:center;
+                font-weight: 900;
+            }
+            .create-btn {
+                position: fixed;
+display: block;
+right: 20px;
+top: 10px;
+font-size: 18px;
+padding: 20px;
+text-decoration: none;
+color: white;
+background: black;
+            }
+            .ul-style {
+                list-style-type: none;
+margin-top: 40px;
+            }
+            .clist {
+                text-decoration: none;
+color: white;
+background: black;
+opacity:.5;
+display: block;
+border-radius: 9px;
+width: 40%;
+line-height: 59px;
+height: 58px;
+font-size: 18px;
+text-align: center;
+            }
+
+            element.style {
+BACKGROUND: rgba(0,0,0,0.9);
+}
+        </style>
         <script type="text/javascript">
             $(function () {
                 Parse.initialize("zJDkcisSASpMHkV9VCpEJFbkrO16eJv6g1i5UxjU", "NYTIqi6mJbKUr3AbR8JpofmqRfYpWOrz6shdngud");
@@ -33,8 +85,8 @@
         <!--<script type="text/javascript" src="/static/campaign.js"></script>-->
     </head>
     <body>
-        <span id="campaign_id" style="display:none;">{{query_string}}</span>
-        <div id="campaign_info"></div>
+        <span id="campaign_id" style="display:none;">{{query_string}}</span><br><br><br><br>
+        <center><div id="campaign_info" style="BACKGROUND: rgba(0,0,0,0.5); color:white; width:40%; border-radius: 9px; padding-top: 30px; padding-bottom: 30px;"></div></center>
         <a href="/campaigns">See all campaigns.</a>
   </body>
 </html>
