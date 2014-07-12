@@ -10,6 +10,8 @@
 #import "PullToRefresh.h"
 #import "PullToRefresh.h"
 
+#import <Parse/Parse.h>
+
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -24,5 +26,7 @@
 @property (nonatomic, strong) FBProfilePictureView *fbProfilePic;
 @property (nonatomic, strong) NSString *userid;
 @property (nonatomic, strong) UIView *profileSnippetView;
-@property (nonatomic, strong) NSString *videoCampaign;
+@property (nonatomic, strong) PFObject *videoCampaign;
+@property (nonatomic, strong) NSMutableArray *campaigns;
+@property (nonatomic, assign) int videoId;
 @end
